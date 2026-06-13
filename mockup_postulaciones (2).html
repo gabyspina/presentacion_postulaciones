@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Postulaciones DISCA — Demo</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: 'Segoe UI', sans-serif; padding: 20px; background: #f0f2f5; margin: auto; max-width: 1400px; }
+
+  .demo-banner { background: linear-gradient(135deg, #4a235a, #6c3483); color: #fff; text-align: center; padding: 8px 15px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; font-weight: 600; }
+
+  nav { background: #0F4C75; padding: 10px 14px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  nav h1 { color: #fff; margin: 0; flex-grow: 1; font-size: 1.15rem; }
+  nav button { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.6); padding: 8px 14px; cursor: pointer; border-radius: 5px; font-size: 13px; }
+  nav button:hover { background: #0a3554; }
+  nav button.activo { background: #fff; color: #0F4C75; font-weight: 700; border-color: #fff; }
+
+  .pantalla { display: none; }
+  .pantalla.visible { display: block; }
+
+  .user-bar { display: flex; align-items: center; gap: 12px; padding: 8px 15px; background: white; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.08); font-size: 13px; color: #444; }
+  .badge-permiso { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #d1e7dd; color: #0f5132; }
+
+  /* Filtros */
+  .filtros { background: white; padding: 14px 16px; border-radius: 10px; margin-bottom: 15px; display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
+  .filtro-grupo { display: flex; flex-direction: column; gap: 4px; }
+  .filtros label { font-weight: 600; font-size: 11px; color: #777; text-transform: uppercase; letter-spacing: 0.5px; }
+  .filtros select, .filtros input { padding: 7px 8px; border: 1px solid #d0d0d0; border-radius: 6px; font-size: 12px; height: 36px; max-width: 150px; }
+  .btn-azul   { padding: 0 14px; height: 36px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; color: #fff; background: #0F4C75; }
+  .btn-oscuro { padding: 0 14px; height: 36px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; color: #fff; background: #0a3554; }
+  .btn-verde  { padding: 0 14px; height: 36px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; color: #fff; background: #2e7d32; }
+  .btn-magia  { padding: 0 14px; height: 36px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #e65100, #f57c00); }
+
+  .contador { font-size: 13px; color: #666; margin-bottom: 10px; }
+
+  .tabla-wrapper { overflow-x: auto; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+  table { width: 100%; border-collapse: collapse; background: white; min-width: 1100px; }
+  th { background: #0F4C75; color: white; padding: 10px 12px; font-size: 12px; text-align: left; white-space: nowrap; }
+  td { padding: 9px 12px; border-bottom: 1px solid #eee; font-size: 12px; white-space: nowrap; }
+  tr:hover td { background: #f9f0ff; }
+  table.verde th { background: #2e7d32; }
+  table.rojo  th { background: #842029; }
+  table.naranja th { background: #F54927; }
+
+  tr.fila-nuevo td       { background: #fff3c4 !important; }
+  tr.fila-nuevo:hover td { background: #ffe896 !important; }
+  tr.fila-verde td       { background: #d4edda !important; }
+  tr.fila-verde:hover td { background: #bfe3c6 !important; }
+  tr.fila-recien td      { background: #37474f !important; color: #fff; }
+
+  .badge { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .badge-propuesto     { background: #f3e5f5; color: #6a1b9a; }
+  .badge-postulado     { background: #e3f2fd; color: #1565c0; }
+  .badge-asignado      { background: #fff3cd; color: #856404; }
+  .badge-pendiente-exp { background: #fce4ec; color: #880e4f; }
+  .badge-contratado    { background: #d1e7dd; color: #0f5132; }
+  .badge-nocontratado  { background: #f8d7da; color: #842029; }
+
+  .select-estado { padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; border: none; cursor: pointer; }
+  .select-estado.propuesto     { background: #f3e5f5; color: #6a1b9a; }
+  .select-estado.postulado     { background: #e3f2fd; color: #1565c0; }
+  .select-estado.asignado      { background: #fff3cd; color: #856404; }
+  .select-estado.pendiente-exp { background: #fce4ec; color: #880e4f; }
+  .select-estado.contratado    { background: #d1e7dd; color: #0f5132; }
+  .select-estado.nocontratado  { background: #f8d7da; color: #842029; }
+  .select-asignado { padding: 4px 8px; border-radius: 6px; font-size: 12px; border: 1px solid #ccc; max-width: 150px; }
+
+  .btn-contacto  { background: #0F4C75; color: white; border: none; border-radius: 5px; padding: 4px 10px; font-size: 11px; cursor: pointer; }
+  .btn-obs       { background: #6c3483; color: white; border: none; border-radius: 5px; padding: 4px 10px; font-size: 11px; cursor: pointer; }
+  .btn-confirmar { background: #2e7d32; color: white; border: none; border-radius: 6px; padding: 5px 9px; cursor: pointer; font-size: 13px; font-weight: bold; }
+  .input-nropost { width: 105px; padding: 4px 6px; border: 1px solid #ccc; border-radius: 6px; font-size: 12px; }
+
+  /* Formulario de carga */
+  .form-card { background: #fff; border-radius: 12px; padding: 28px; max-width: 660px; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+  .form-card h2 { color: #0F4C75; margin-top: 0; font-size: 18px; }
+  .form-grupo { margin-bottom: 16px; }
+  .form-grupo label { display: block; font-size: 12px; font-weight: 700; color: #555; margin-bottom: 5px; }
+  .form-grupo select, .form-grupo input { width: 100%; padding: 9px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; }
+  .form-fila { display: flex; gap: 14px; }
+  .form-fila .form-grupo { flex: 1; }
+  .btn-enviar { width: 100%; padding: 12px; background: #0F4C75; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 6px; }
+  .btn-enviar:hover { background: #0a3554; }
+
+  /* Modales */
+  .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+  .modal-overlay.activo { display: flex; }
+  .modal { background: white; border-radius: 12px; padding: 25px; min-width: 320px; max-width: 520px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+  .modal h3 { margin-top: 0; color: #4a235a; font-size: 15px; }
+  .modal-campo { margin-bottom: 13px; }
+  .modal-campo label { font-size: 12px; font-weight: 600; color: #888; display: block; margin-bottom: 4px; }
+  .modal-valor { font-size: 14px; color: #333; background: #f5f5f5; padding: 8px 12px; border-radius: 6px; }
+  .btn-cerrar { width: 100%; padding: 9px; background: #888; color: white; border: none; border-radius: 6px; cursor: pointer; margin-top: 5px; font-size: 13px; }
+  .obs-log { max-height: 230px; overflow-y: auto; margin-bottom: 14px; }
+  .obs-entry { background: #f5f5f5; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; }
+  .obs-meta  { font-size: 11px; color: #888; margin-bottom: 4px; }
+  .obs-texto { font-size: 13px; color: #333; }
+  .obs-input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; margin-bottom: 8px; resize: vertical; min-height: 55px; }
+  .btn-guardar-obs { padding: 8px 16px; background: #2e7d32; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; }
+
+  /* Toast */
+  #toast { display: none; position: fixed; top: 110px; left: 50%; transform: translateX(-50%) translateY(-20px); padding: 14px 28px; border-radius: 50px; box-shadow: 0 6px 20px rgba(0,0,0,0.25); z-index: 9999; font-weight: 600; font-size: 14px; color: white; opacity: 0; transition: opacity 0.3s, transform 0.3s; max-width: 90%; text-align: center; }
+  #toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+  #toast.toast-exito { background: linear-gradient(135deg, #2e7d32, #43a047); }
+  #toast.toast-error { background: linear-gradient(135deg, #c62828, #e53935); }
+  #toast.toast-info  { background: linear-gradient(135deg, #1565c0, #1e88e5); }
+</style>
+</head>
+<body>
+<div id="toast"></div>
+
+<div class="demo-banner">🎭 MODO DEMO — Prototipo interactivo con datos ficticios. Ninguna acción modifica información real.</div>
+
+<nav>
+  <h1>Sistema de Postulaciones — Discapacidad</h1>
+  <button id="nav-carga" onclick="irA('carga')">📝 Cargar propuesta</button>
+  <button id="nav-gestion" class="activo" onclick="irA('gestion')">⚙️ Gestión</button>
+  <button id="nav-seguimiento" onclick="irA('seguimiento')">🔍 Seguimiento</button>
+  <button id="nav-contratados" onclick="irA('contratados')">✅ Contratados</button>
+  <button id="nav-nocontratados" onclick="irA('nocontratados')">❌ No contratados</button>
+</nav>
+
+<div class="user-bar">
+  <span>👤</span>
+  <span style="font-weight:600;">usuario.demo@osde.com.ar</span>
+  <span class="badge-permiso">✏️ Gestión habilitada</span>
+</div>
+
+<!-- ============ PANTALLA GESTIÓN ============ -->
+<div class="pantalla visible" id="pantalla-gestion">
+  <div class="filtros">
+    <div class="filtro-grupo">
+      <label>Filial</label>
+      <select id="fFilial" onchange="renderGestion()">
+        <option value="">Todas</option>
+        <option>Mar del Plata</option>
+        <option>Lobos</option>
+        <option>Bahía Blanca</option>
+        <option>Buenos Aires Centro</option>
+        <option>La Plata</option>
+      </select>
+    </div>
+    <div class="filtro-grupo">
+      <label>Tipo</label>
+      <select id="fTipo" onchange="renderGestion()">
+        <option value="">Todos</option>
+        <option value="Nuevo">No existe en PD</option>
+        <option value="Existente">Dado de alta en PD</option>
+        <option value="Prestador">Prest. sin código</option>
+        <option value="FueraMI">Prest. fuera de MI</option>
+      </select>
+    </div>
+    <div class="filtro-grupo">
+      <label>Estado</label>
+      <select id="fEstado" onchange="renderGestion()">
+        <option value="">Todos</option>
+        <option>Propuesto</option>
+        <option>Postulado</option>
+        <option>Asignado</option>
+        <option>Pendiente de Experiencia</option>
+      </select>
+    </div>
+    <div class="filtro-grupo">
+      <label>Buscar</label>
+      <input type="text" id="fBuscar" placeholder="Nombre..." oninput="renderGestion()" style="width:150px;">
+    </div>
+    <button class="btn-oscuro" onclick="limpiarFiltros()">Ver todos</button>
+    <button class="btn-magia" onclick="simularAlta()" title="Simula la llegada del mail de alta de prestador">⚡ Simular alta automática</button>
+  </div>
+
+  <p class="contador" id="contadorGestion"></p>
+  <div id="tablaGestion"></div>
+</div>
+
+<!-- ============ PANTALLA CARGA ============ -->
+<div class="pantalla" id="pantalla-carga">
+  <div class="form-card">
+    <h2>Propuesta de profesional / Institución para contratar</h2>
+    <div class="form-grupo">
+      <label>Tipo de Profesional</label>
+      <select id="cTipo" onchange="toggleTipo()">
+        <option value="Nuevo">No existe en Pago Directo</option>
+        <option value="Existente">Está dado de alta en Pago Directo</option>
+        <option value="Prestador">Es prestador sin códigos de disca</option>
+        <option value="FueraMI">Prestador no incluido en el MI</option>
+      </select>
+    </div>
+    <div class="form-fila">
+      <div class="form-grupo">
+        <label>Filial</label>
+        <select id="cFilial">
+          <option>Mar del Plata</option>
+          <option>Lobos</option>
+          <option>Bahía Blanca</option>
+          <option>Buenos Aires Centro</option>
+          <option>La Plata</option>
+        </select>
+      </div>
+      <div class="form-grupo" id="grpCiudad">
+        <label>Ciudad del prestador</label>
+        <input type="text" id="cCiudad" placeholder="Ej: Miramar">
+      </div>
+    </div>
+    <div class="form-fila">
+      <div class="form-grupo">
+        <label>Nombre del profesional</label>
+        <input type="text" id="cNombre" placeholder="Apellido y nombre">
+      </div>
+      <div class="form-grupo">
+        <label>CUIT</label>
+        <input type="text" id="cCuit" placeholder="27-12345678-3">
+      </div>
+    </div>
+    <div class="form-fila">
+      <div class="form-grupo">
+        <label>Especialidad</label>
+        <select id="cEsp">
+          <option>Kinesiología</option><option>Fonoaudiología</option><option>Terapia Ocupacional</option>
+          <option>Escuela Especial</option><option>Centro de día</option><option>Psicología</option>
+          <option>Psicopedagogía</option><option>CET</option><option>Transporte</option>
+          <option>Formación Laboral</option><option>Musicoterapia</option><option>Maestra de Apoyo</option>
+          <option>Integración Escolar</option><option>Estimulación Visual</option>
+        </select>
+      </div>
+      <div class="form-grupo" id="grpNroProf" style="display:none;">
+        <label>N° Profesional Pago Directo</label>
+        <input type="text" id="cNroProf" placeholder="12345">
+      </div>
+    </div>
+    <div class="form-fila" id="grpContacto">
+      <div class="form-grupo">
+        <label>Teléfono</label>
+        <input type="text" id="cTel" placeholder="223-5551234">
+      </div>
+      <div class="form-grupo">
+        <label>Mail</label>
+        <input type="text" id="cMail" placeholder="profesional@mail.com">
+      </div>
+    </div>
+    <div class="form-fila" id="grpSocio">
+      <div class="form-grupo">
+        <label>Nombre del socio</label>
+        <input type="text" id="cSocio" placeholder="Apellido y nombre">
+      </div>
+      <div class="form-grupo">
+        <label>N° de socio</label>
+        <input type="text" id="cNroSocio" placeholder="62...">
+      </div>
+    </div>
+    <div class="form-grupo" id="grpTicket">
+      <label>Ticket (N° ID documentación)</label>
+      <input type="text" id="cTicket" placeholder="10...">
+    </div>
+    <button class="btn-enviar" onclick="cargarPropuesta()">Enviar propuesta</button>
+  </div>
+</div>
+
+<!-- ============ PANTALLA SEGUIMIENTO ============ -->
+<div class="pantalla" id="pantalla-seguimiento">
+  <p class="contador" id="contadorSeg"></p>
+  <div id="tablaSeguimiento"></div>
+</div>
+
+<!-- ============ PANTALLA CONTRATADOS ============ -->
+<div class="pantalla" id="pantalla-contratados">
+  <p class="contador" id="contadorCont"></p>
+  <div id="tablaContratados"></div>
+</div>
+
+<!-- ============ PANTALLA NO CONTRATADOS ============ -->
+<div class="pantalla" id="pantalla-nocontratados">
+  <p class="contador" id="contadorNoCont"></p>
+  <div id="tablaNoContratados"></div>
+</div>
+
+<!-- Modal contacto -->
+<div class="modal-overlay" id="modalContacto" onclick="if(event.target===this) this.classList.remove('activo')">
+  <div class="modal">
+    <h3 id="mcNombre"></h3>
+    <div class="modal-campo"><label>📞 Teléfono</label><div class="modal-valor" id="mcTel"></div></div>
+    <div class="modal-campo"><label>✉️ Mail</label><div class="modal-valor" id="mcMail"></div></div>
+    <div class="modal-campo"><label>🪪 CUIT</label><div class="modal-valor" id="mcCuit"></div></div>
+    <button class="btn-cerrar" onclick="document.getElementById('modalContacto').classList.remove('activo')">Cerrar</button>
+  </div>
+</div>
+
+<!-- Modal observaciones -->
+<div class="modal-overlay" id="modalObs" onclick="if(event.target===this) this.classList.remove('activo')">
+  <div class="modal">
+    <h3 id="moNombre"></h3>
+    <div class="obs-log" id="moLog"></div>
+    <div id="moEditor"></div>
+  </div>
+</div>
+
+<script>
+// ================== DATOS FICTICIOS ==================
+var EQUIPO = ["Valeria Sabia","Brenda Byrtus","Yanina Renteria","Mariana Garmendia","Nicolas San Juan Fiol","Mariana Acquafredda","Karina Zerauschek","Mariana Moreyra","Fernando Lanchas","Miguel Cuezzo","Rosana Grossi","Maria Riego","Manuel Puig","Matias Zocco","Andrea Soto","Silvia Avagnina"];
+
+var ESTADOS = ['Propuesto','Postulado','Asignado','Pendiente de Experiencia','Contratado','No contratado'];
+var CLS = { 'Propuesto':'propuesto','Postulado':'postulado','Asignado':'asignado','Pendiente de Experiencia':'pendiente-exp','Contratado':'contratado','No contratado':'nocontratado' };
+
+// id, filial, ciudad, tipo, nombre, especialidad, tel, mail, fecha, nroSocio, socio, ticket, medida, estado, asignado, nroPost, cuit, obs[], fechaContr
+var registros = [
+  { id:1, filial:'Mar del Plata', ciudad:'Mar del Plata', tipo:'Nuevo', nombre:'LOPEZ MARIA JOSE', esp:'Kinesiología', tel:'223-5550101', mail:'mjlopez@mail.com', fecha:'02/06/2026', nroSocio:'62791000001', socio:'PEREZ JUAN IGNACIO', ticket:'1010900001', medida:'No', estado:'Propuesto', asignado:'', nroPost:'', cuit:'27-21345678-3', obs:[], fechaContr:'' },
+  { id:2, filial:'Lobos', ciudad:'Navarro', tipo:'Nuevo', nombre:'GUTIERREZ CARLA', esp:'Terapia Ocupacional', tel:'2227-441122', mail:'cgutierrez@mail.com', fecha:'03/06/2026', nroSocio:'62791000002', socio:'DIAZ LUCIA', ticket:'1010900002', medida:'Si', estado:'Propuesto', asignado:'', nroPost:'', cuit:'27-25789456-1', obs:[], fechaContr:'' },
+  { id:3, filial:'Bahía Blanca', ciudad:'Bahía Blanca', tipo:'Existente', nombre:'FERNANDEZ PABLO', esp:'Psicología', tel:'291-4556677', mail:'pfernandez@mail.com', fecha:'28/05/2026', nroSocio:'62791000003', socio:'MOLINA SOFIA', ticket:'1010900003', medida:'No', estado:'Postulado', asignado:'Valeria Sabia', nroPost:'5007326001', cuit:'20-28456123-7', obs:[{meta:'29/05/2026 10:14 - usuario.demo@osde.com.ar - Asignado a: Valeria Sabia', texto:'Se envió documentación a postulación.'}], fechaContr:'' },
+  { id:4, filial:'Mar del Plata', ciudad:'Miramar', tipo:'Prestador', nombre:'CENTRO CRECER SRL', esp:'Centro de día', tel:'223-5550404', mail:'admin@crecer.com', fecha:'25/05/2026', nroSocio:'62791000004', socio:'TORRES BENJAMIN', ticket:'1010900004', medida:'No', estado:'Pendiente de Experiencia', asignado:'Miguel Cuezzo', nroPost:'5007326002', cuit:'30-71234567-9', obs:[{meta:'26/05/2026 09:30 - usuario.demo@osde.com.ar - Asignado a: Miguel Cuezzo', texto:'Prestador con convenio previo, falta agregar códigos de disca.'}], fechaContr:'' },
+  { id:5, filial:'La Plata', ciudad:'City Bell', tipo:'FueraMI', nombre:'INSTITUTO AURORA', esp:'Escuela Especial', tel:'221-4889900', mail:'direccion@aurora.edu', fecha:'30/05/2026', nroSocio:'62791000005', socio:'RAMIREZ VALENTINA', ticket:'1010900005', medida:'No', estado:'Propuesto', asignado:'', nroPost:'', cuit:'30-65987412-3', obs:[], fechaContr:'' },
+  { id:6, filial:'Buenos Aires Centro', ciudad:'CABA', tipo:'Nuevo', nombre:'SOSA MARTIN', esp:'Fonoaudiología', tel:'11-45556666', mail:'msosa@mail.com', fecha:'05/06/2026', nroSocio:'62791000006', socio:'CASTRO EMILIA', ticket:'1010900006', medida:'No', estado:'Postulado', asignado:'Rosana Grossi', nroPost:'', cuit:'20-31456789-5', obs:[], fechaContr:'' },
+  { id:7, filial:'Lobos', ciudad:'Lobos', tipo:'Existente', nombre:'BIANCHI LAURA', esp:'Psicopedagogía', tel:'2227-455667', mail:'lbianchi@mail.com', fecha:'01/06/2026', nroSocio:'62791000007', socio:'AGUIRRE TOMAS', ticket:'1010900007', medida:'No', estado:'Asignado', asignado:'Andrea Soto', nroPost:'', cuit:'27-29654321-8', obs:[], fechaContr:'' },
+  { id:8, filial:'Mar del Plata', ciudad:'Balcarce', tipo:'Nuevo', nombre:'TRANSPORTE SAN JOSE', esp:'Transporte', tel:'2266-433221', mail:'sanjose@mail.com', fecha:'04/06/2026', nroSocio:'62791000008', socio:'VEGA FRANCISCO', ticket:'1010900008', medida:'Si', estado:'Propuesto', asignado:'', nroPost:'', cuit:'30-70888999-1', obs:[], fechaContr:'' },
+  { id:9, filial:'Bahía Blanca', ciudad:'Punta Alta', tipo:'Existente', nombre:'MORENO DIEGO', esp:'Musicoterapia', tel:'291-4778899', mail:'dmoreno@mail.com', fecha:'20/05/2026', nroSocio:'62791000009', socio:'RIOS MARTINA', ticket:'1010900009', medida:'No', estado:'Contratado', asignado:'Manuel Puig', nroPost:'5007325900', cuit:'20-27123987-4', obs:[], fechaContr:'06/06/2026' },
+  { id:10, filial:'La Plata', ciudad:'La Plata', tipo:'Nuevo', nombre:'ACUÑA PAULA', esp:'Maestra de Apoyo', tel:'221-4332211', mail:'pacuna@mail.com', fecha:'15/05/2026', nroSocio:'62791000010', socio:'SILVA BAUTISTA', ticket:'1010900010', medida:'No', estado:'No contratado', asignado:'Karina Zerauschek', nroPost:'5007325800', cuit:'27-26789123-6', obs:[{meta:'22/05/2026 14:50 - usuario.demo@osde.com.ar - Asignado a: Karina Zerauschek', texto:'No acepta los valores del convenio.'}], fechaContr:'' },
+  { id:11, filial:'Mar del Plata', ciudad:'Mar del Plata', tipo:'Existente', nombre:'PAEZ VERONICA', esp:'Integración Escolar', tel:'223-5551111', mail:'vpaez@mail.com', fecha:'27/05/2026', nroSocio:'62791000011', socio:'NUÑEZ ISABELLA', ticket:'1010900011', medida:'No', estado:'Contratado', asignado:'Valeria Sabia', nroPost:'5007325700', cuit:'27-24456789-2', obs:[], fechaContr:'09/06/2026' }
+];
+
+var ultimoId = 11;
+var GESTION_COLS = ['Fecha','Filial','Localidad','Nombre profesional','Especialidad','Datos','Estado','Asignado a','N° Postulación','Tipo','Observaciones','Ticket','Nombre socio','Nro socio','Medida judicial'];
+
+// ================== NAVEGACIÓN ==================
+function irA(p) {
+  document.querySelectorAll('.pantalla').forEach(function(el){ el.classList.remove('visible'); });
+  document.querySelectorAll('nav button').forEach(function(el){ el.classList.remove('activo'); });
+  document.getElementById('pantalla-' + p).classList.add('visible');
+  document.getElementById('nav-' + p).classList.add('activo');
+  if (p === 'gestion') renderGestion();
+  if (p === 'seguimiento') renderSeguimiento();
+  if (p === 'contratados') renderContratados();
+  if (p === 'nocontratados') renderNoContratados();
+}
+
+// ================== TOAST ==================
+function aviso(msj, tipo) {
+  var t = document.getElementById('toast');
+  t.innerText = msj;
+  t.className = 'toast-' + (tipo || 'error');
+  t.style.display = 'block';
+  void t.offsetWidth;
+  t.classList.add('visible');
+  clearTimeout(window._tt);
+  window._tt = setTimeout(function(){ t.classList.remove('visible'); setTimeout(function(){ t.style.display='none'; },300); }, 3200);
+}
+
+// ================== GESTIÓN ==================
+function tipoDisplay(t) {
+  return { 'Nuevo':'No en PD', 'Existente':'En PD', 'Prestador':'Prest. sin código', 'FueraMI':'Prest. fuera de MI' }[t] || t;
+}
+
+function renderGestion() {
+  var fil = document.getElementById('fFilial').value;
+  var tip = document.getElementById('fTipo').value;
+  var est = document.getElementById('fEstado').value;
+  var bus = document.getElementById('fBuscar').value.toLowerCase();
+
+  var datos = registros.filter(function(r) {
+    return r.estado !== 'Contratado' && r.estado !== 'No contratado'
+      && (!fil || r.filial === fil)
+      && (!tip || r.tipo === tip)
+      && (!est || r.estado === est)
+      && (!bus || r.nombre.toLowerCase().includes(bus));
+  });
+
+  document.getElementById('contadorGestion').innerText = datos.length + ' postulación/es activas';
+
+  var h = '<div class="tabla-wrapper"><table><thead><tr>';
+  GESTION_COLS.forEach(function(c){ h += '<th>' + c + '</th>'; });
+  h += '</tr></thead><tbody>';
+
+  datos.forEach(function(r) {
+    var cls = '';
+    if (r.tipo === 'Nuevo') cls = 'fila-nuevo';
+    else if (r.tipo === 'Prestador' || r.tipo === 'FueraMI') cls = 'fila-verde';
+    h += '<tr' + (cls ? ' class="'+cls+'"' : '') + '>';
+    h += '<td>' + r.fecha + '</td><td>' + r.filial + '</td><td>' + r.ciudad + '</td>';
+    h += '<td><strong>' + r.nombre + '</strong></td><td>' + r.esp + '</td>';
+    h += '<td><button class="btn-contacto" onclick="verContacto(' + r.id + ')">📋 Ver</button></td>';
+    // Estado editable
+    h += '<td><div style="display:flex;gap:4px;align-items:center;">'
+       + '<select id="est-' + r.id + '" class="select-estado ' + (CLS[r.estado]||'propuesto') + '" '
+       + 'onchange="this.className=\'select-estado \'+CLS[this.value]">'
+       + ESTADOS.map(function(e){ return '<option' + (e===r.estado?' selected':'') + '>' + e + '</option>'; }).join('')
+       + '</select><button class="btn-confirmar" onclick="confEstado(' + r.id + ')">✓</button></div></td>';
+    // Asignado
+    h += '<td><div style="display:flex;gap:4px;align-items:center;">'
+       + '<select id="asig-' + r.id + '" class="select-asignado"><option value="">Sin asignar</option>'
+       + EQUIPO.map(function(u){ return '<option' + (u===r.asignado?' selected':'') + '>' + u + '</option>'; }).join('')
+       + '</select><button class="btn-confirmar" onclick="confAsignado(' + r.id + ')">✓</button></div></td>';
+    // Nro post
+    if (r.estado === 'Postulado' && !r.nroPost) {
+      h += '<td><div style="display:flex;gap:4px;align-items:center;">'
+         + '<input type="number" class="input-nropost" id="np-' + r.id + '" placeholder="N° postulación">'
+         + '<button class="btn-confirmar" onclick="confNroPost(' + r.id + ')">✓</button></div></td>';
+    } else {
+      h += '<td>' + (r.nroPost ? '<strong>' + r.nroPost + '</strong>' : '<span style="color:#aaa">—</span>') + '</td>';
+    }
+    h += '<td>' + tipoDisplay(r.tipo) + '</td>';
+    h += '<td><button class="btn-obs" onclick="verObs(' + r.id + ')">💬 ' + r.obs.length + '</button></td>';
+    h += '<td>' + r.ticket + '</td><td>' + r.socio + '</td><td>' + r.nroSocio + '</td><td>' + r.medida + '</td>';
+    h += '</tr>';
+  });
+  h += '</tbody></table></div>';
+  document.getElementById('tablaGestion').innerHTML = h;
+}
+
+function limpiarFiltros() {
+  document.getElementById('fFilial').value = '';
+  document.getElementById('fTipo').value = '';
+  document.getElementById('fEstado').value = '';
+  document.getElementById('fBuscar').value = '';
+  renderGestion();
+}
+
+function buscar(id) { return registros.find(function(r){ return r.id === id; }); }
+
+function confEstado(id) {
+  var r = buscar(id);
+  var sel = document.getElementById('est-' + id);
+  var nuevo = sel.value;
+
+  if (nuevo !== 'Propuesto' && !r.asignado) {
+    aviso('⚠️ Primero tenés que asignar este profesional a alguien antes de cambiar el estado.');
+    sel.value = r.estado; sel.className = 'select-estado ' + (CLS[r.estado]||'propuesto');
+    return;
+  }
+  var posteriores = ['Pendiente de Experiencia','Contratado','No contratado'];
+  if (r.estado === 'Postulado' && posteriores.indexOf(nuevo) !== -1 && !r.nroPost) {
+    aviso('⚠️ Tenés que cargar el N° de postulación antes de avanzar a este estado.');
+    sel.value = 'Postulado'; sel.className = 'select-estado postulado';
+    return;
+  }
+  r.estado = nuevo;
+  if (nuevo === 'Contratado') r.fechaContr = '10/06/2026';
+  aviso('✅ Estado actualizado a "' + nuevo + '"', 'exito');
+  renderGestion();
+}
+
+function confAsignado(id) {
+  var r = buscar(id);
+  var nombre = document.getElementById('asig-' + id).value;
+  r.asignado = nombre;
+  if (nombre && r.estado === 'Propuesto') r.estado = 'Asignado';
+  aviso(nombre ? '✅ Asignado a ' + nombre : '✅ Asignación quitada', 'exito');
+  renderGestion();
+}
+
+function confNroPost(id) {
+  var r = buscar(id);
+  var v = document.getElementById('np-' + id).value.trim();
+  if (!v) { aviso('Ingresá un número de postulación.'); return; }
+  r.nroPost = v;
+  aviso('✅ N° de postulación guardado: ' + v, 'exito');
+  renderGestion();
+}
+
+function verContacto(id) {
+  var r = buscar(id);
+  document.getElementById('mcNombre').innerText = r.nombre;
+  document.getElementById('mcTel').innerText = r.tel;
+  document.getElementById('mcMail').innerText = r.mail;
+  document.getElementById('mcCuit').innerText = r.cuit;
+  document.getElementById('modalContacto').classList.add('activo');
+}
+
+var obsActual = -1;
+function verObs(id) {
+  obsActual = id;
+  var r = buscar(id);
+  document.getElementById('moNombre').innerText = r.nombre;
+  document.getElementById('moLog').innerHTML = r.obs.length === 0
+    ? '<p style="color:#aaa;font-size:13px;">Sin observaciones aún.</p>'
+    : r.obs.map(function(o){ return '<div class="obs-entry"><div class="obs-meta">'+o.meta+'</div><div class="obs-texto">'+o.texto+'</div></div>'; }).join('');
+  var ed = document.getElementById('moEditor');
+  if (!r.asignado) {
+    ed.innerHTML = '<p style="color:#c62828;font-size:13px;background:#fdecea;padding:10px 12px;border-radius:6px;">⚠️ Asigná este profesional a alguien para poder cargar observaciones.</p>';
+  } else {
+    ed.innerHTML = '<textarea class="obs-input" id="moInput" placeholder="Escribí una nueva observación..."></textarea>'
+      + '<div style="display:flex;gap:8px;"><button class="btn-guardar-obs" onclick="guardarObs()">Guardar</button>'
+      + '<button class="btn-cerrar" style="margin-top:0;" onclick="document.getElementById(\'modalObs\').classList.remove(\'activo\')">Cancelar</button></div>';
+  }
+  document.getElementById('modalObs').classList.add('activo');
+}
+
+function guardarObs() {
+  var r = buscar(obsActual);
+  var t = document.getElementById('moInput').value.trim();
+  if (!t) return;
+  var ahora = new Date();
+  r.obs.push({ meta: ahora.toLocaleDateString('es-AR') + ' ' + ahora.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}) + ' - usuario.demo@osde.com.ar - Asignado a: ' + r.asignado, texto: t });
+  aviso('✅ Observación agregada', 'exito');
+  verObs(obsActual);
+  renderGestion();
+}
+
+// ================== SIMULACIÓN DE ALTA AUTOMÁTICA ==================
+function simularAlta() {
+  var candidato = registros.find(function(r){ return r.nroPost && r.estado !== 'Contratado' && r.estado !== 'No contratado'; });
+  if (!candidato) { aviso('No hay postulaciones con N° cargado para simular el alta.', 'info'); return; }
+  aviso('📧 Llegó mail: "Notificación de Alta de Prestador - ' + candidato.nroPost + '"', 'info');
+  setTimeout(function() {
+    candidato.estado = 'Contratado';
+    candidato.fechaContr = '10/06/2026';
+    renderGestion();
+    aviso('⚡ Detección automática: ' + candidato.nombre + ' pasó a CONTRATADO sin intervención manual', 'exito');
+  }, 2200);
+}
+
+// ================== CARGA ==================
+function toggleTipo() {
+  var t = document.getElementById('cTipo').value;
+  var ocultar = (t === 'Prestador' || t === 'FueraMI');
+  document.getElementById('grpCiudad').style.display   = ocultar ? 'none' : 'block';
+  document.getElementById('grpContacto').style.display = ocultar ? 'none' : 'flex';
+  document.getElementById('grpSocio').style.display    = ocultar ? 'none' : 'flex';
+  document.getElementById('grpTicket').style.display   = ocultar ? 'none' : 'block';
+  document.getElementById('grpNroProf').style.display  = (t === 'Existente') ? 'block' : 'none';
+}
+
+function cargarPropuesta() {
+  var nombre = document.getElementById('cNombre').value.trim();
+  var cuit   = document.getElementById('cCuit').value.trim();
+  if (!nombre) { aviso('Ingresá el nombre del profesional.'); return; }
+  if (!cuit)   { aviso('Ingresá el CUIT.'); return; }
+  // Validación CUIT duplicado (simulada)
+  var dup = registros.find(function(r){ return r.cuit === cuit; });
+  if (dup) { aviso('⚠️ Ese CUIT ya fue cargado para ' + dup.nombre + '.'); return; }
+
+  ultimoId++;
+  registros.push({
+    id: ultimoId,
+    filial: document.getElementById('cFilial').value,
+    ciudad: document.getElementById('cCiudad').value || '—',
+    tipo: document.getElementById('cTipo').value,
+    nombre: nombre.toUpperCase(),
+    esp: document.getElementById('cEsp').value,
+    tel: document.getElementById('cTel').value || '—',
+    mail: document.getElementById('cMail').value || '—',
+    fecha: '10/06/2026',
+    nroSocio: document.getElementById('cNroSocio').value || '—',
+    socio: document.getElementById('cSocio').value || '—',
+    ticket: document.getElementById('cTicket').value || '—',
+    medida: 'No', estado: 'Propuesto', asignado: '', nroPost: '', cuit: cuit, obs: [], fechaContr: ''
+  });
+  aviso('✅ Propuesta cargada correctamente. Ya está visible en Gestión.', 'exito');
+  ['cNombre','cCuit','cCiudad','cTel','cMail','cSocio','cNroSocio','cTicket'].forEach(function(i){ document.getElementById(i).value = ''; });
+}
+
+// ================== SEGUIMIENTO ==================
+function renderSeguimiento() {
+  var datos = registros.filter(function(r){ return r.nroPost; });
+  document.getElementById('contadorSeg').innerText = datos.length + ' postulación/es con número asignado';
+  var h = '<div class="tabla-wrapper"><table class="naranja"><thead><tr><th>N° Postulación</th><th>Filial</th><th>Ciudad</th><th>Nombre</th><th>CUIT</th><th>Estado</th><th>Detalle</th></tr></thead><tbody>';
+  datos.forEach(function(r) {
+    var detalle = r.estado === 'Contratado' ? 'Alta finalizada' : (r.estado === 'No contratado' ? 'Postulación cerrada' : 'Pendiente de envío de carta de intención');
+    h += '<tr><td><strong>' + r.nroPost + '</strong></td><td>' + r.filial + '</td><td>' + r.ciudad + '</td><td>' + r.nombre + '</td><td>' + r.cuit + '</td>'
+       + '<td><span class="badge badge-' + (CLS[r.estado]||'propuesto') + '">' + r.estado + '</span></td><td>' + detalle + '</td></tr>';
+  });
+  h += '</tbody></table></div>';
+  document.getElementById('tablaSeguimiento').innerHTML = h;
+}
+
+// ================== CONTRATADOS ==================
+function renderContratados() {
+  var datos = registros.filter(function(r){ return r.estado === 'Contratado'; });
+  document.getElementById('contadorCont').innerText = datos.length + ' prestador/es contratado/s';
+  var h = '<div class="tabla-wrapper"><table class="verde"><thead><tr><th>Fecha contratación</th><th>Filial</th><th>Localidad</th><th>Nombre</th><th>N° Postulación</th><th>CUIT</th><th>Nombre socio</th><th>Ticket</th></tr></thead><tbody>';
+  datos.forEach(function(r) {
+    var esNuevo = r.fechaContr === '10/06/2026' || r.fechaContr === '09/06/2026' || r.fechaContr === '06/06/2026';
+    h += '<tr' + (esNuevo ? ' class="fila-recien" title="Contratado en los últimos 7 días"' : '') + '>'
+       + '<td>' + r.fechaContr + '</td><td>' + r.filial + '</td><td>' + r.ciudad + '</td><td><strong>' + r.nombre + '</strong></td>'
+       + '<td>' + r.nroPost + '</td><td>' + r.cuit + '</td><td>' + r.socio + '</td><td>' + r.ticket + '</td></tr>';
+  });
+  h += '</tbody></table></div>'
+     + '<p style="font-size:12px;color:#666;margin-top:10px;">Las filas oscuras indican contrataciones de los últimos 7 días.</p>';
+  document.getElementById('tablaContratados').innerHTML = h;
+}
+
+// ================== NO CONTRATADOS ==================
+function renderNoContratados() {
+  var datos = registros.filter(function(r){ return r.estado === 'No contratado'; });
+  document.getElementById('contadorNoCont').innerText = datos.length + ' caso/s no contratado/s';
+  var h = '<div class="tabla-wrapper"><table class="rojo"><thead><tr><th>Fecha</th><th>Filial</th><th>Localidad</th><th>Nombre</th><th>Especialidad</th><th>Nombre socio</th><th>Observaciones</th></tr></thead><tbody>';
+  datos.forEach(function(r) {
+    h += '<tr><td>' + r.fecha + '</td><td>' + r.filial + '</td><td>' + r.ciudad + '</td><td><strong>' + r.nombre + '</strong></td>'
+       + '<td>' + r.esp + '</td><td>' + r.socio + '</td>'
+       + '<td><button class="btn-obs" onclick="verObs(' + r.id + ')">💬 ' + r.obs.length + '</button></td></tr>';
+  });
+  h += '</tbody></table></div>';
+  document.getElementById('tablaNoContratados').innerHTML = h;
+}
+
+// Inicial
+renderGestion();
+</script>
+</body>
+</html>

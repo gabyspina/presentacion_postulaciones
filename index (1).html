@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Gestión de Prestadores de Discapacidad — Nodo BA Sur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#14213D;
+    --ink:#1B2430;
+    --cyan:#2DD4DA;
+    --blue:#3461C4;
+    --paper:#FFFFFF;
+    --mist:#F2F6F9;
+    --line:#E2E8EF;
+    --muted:#7C8898;
+    --maxw:1080px;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.55;
+  }
+  h1,h2,h3{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.78rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--cyan);
+    font-weight:500;
+  }
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 24px;
+  }
+  a{ color:var(--blue); }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:linear-gradient(160deg,var(--navy) 0%,#0E1830 100%);
+    color:#fff;
+    padding:64px 0 56px;
+  }
+  .hero .eyebrow{ color:var(--cyan); }
+  .hero h1{
+    font-size:clamp(2rem,5vw,3.1rem);
+    margin:14px 0 18px;
+    color:#fff;
+  }
+  .hero p.lead{
+    font-size:1.05rem;
+    color:#C7D2E2;
+    max-width:620px;
+    margin:0 0 32px;
+  }
+  .pillars{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:14px;
+    margin-bottom:44px;
+  }
+  .pillar{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:14px;
+    padding:16px 18px;
+    font-size:.92rem;
+    color:#DCE4F0;
+  }
+  .pillar b{ color:#fff; display:block; margin-bottom:2px; }
+
+  /* ---------- PIPELINE (signature element) ---------- */
+  .pipeline-label{
+    font-size:.8rem;
+    color:#8FA3C2;
+    margin-bottom:14px;
+  }
+  .pipeline{
+    display:flex;
+    align-items:flex-start;
+    overflow-x:auto;
+    padding-bottom:6px;
+    gap:0;
+  }
+  .pl-node{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-width:108px;
+    flex-shrink:0;
+    text-align:center;
+  }
+  .pl-dot{
+    width:16px; height:16px;
+    border-radius:50%;
+    background:var(--blue);
+    border:2px solid #6E89C9;
+    margin-bottom:10px;
+  }
+  .pl-node.is-final .pl-dot{
+    background:var(--cyan);
+    border-color:var(--cyan);
+    box-shadow:0 0 0 4px rgba(45,212,218,.18);
+  }
+  .pl-node.is-out .pl-dot{
+    background:transparent;
+    border-color:#5A6A86;
+  }
+  .pl-line{
+    height:2px;
+    background:linear-gradient(90deg,#3D5485,#3D5485);
+    flex:1 1 40px;
+    margin-top:7px;
+    min-width:24px;
+  }
+  .pl-name{
+    font-size:.78rem;
+    color:#B6C2D8;
+    line-height:1.3;
+  }
+  .pl-node.is-final .pl-name{ color:#fff; font-weight:600; }
+  .pl-fork{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    padding-left:6px;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section.step{
+    padding:64px 0;
+    border-bottom:1px solid var(--line);
+  }
+  section.step:nth-of-type(even){ background:var(--mist); }
+  .step .eyebrow{ color:var(--blue); }
+  .step h2{
+    font-size:clamp(1.5rem,3.4vw,2.2rem);
+    margin:10px 0 12px;
+    color:var(--navy);
+  }
+  .step p.desc{
+    color:var(--muted);
+    max-width:640px;
+    margin:0 0 28px;
+    font-size:.98rem;
+  }
+  .frame{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    border-radius:16px;
+    overflow:hidden;
+    background:#0B1622;
+    box-shadow:0 12px 36px -16px rgba(20,33,61,.35);
+    border:1px solid var(--line);
+  }
+  .frame iframe{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    border:0;
+  }
+  .frame-caption{
+    margin-top:14px;
+    font-size:.85rem;
+    color:var(--muted);
+  }
+  .frame-caption code{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:1px 6px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.78rem;
+  }
+
+  /* ---------- DEMO CARD ---------- */
+  .demo-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:32px;
+    box-shadow:0 12px 36px -20px rgba(20,33,61,.25);
+    display:flex;
+    flex-wrap:wrap;
+    gap:28px;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .demo-card .copy{ flex:1 1 320px; }
+  .demo-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:#FFF4D6;
+    color:#8A6300;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.74rem;
+    letter-spacing:.08em;
+    font-weight:500;
+    border-radius:999px;
+    padding:5px 12px;
+    margin-bottom:14px;
+  }
+  .demo-tag .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:#E0A400;
+  }
+  .demo-card h3{
+    font-size:1.3rem;
+    color:var(--navy);
+    margin-bottom:8px;
+  }
+  .demo-card p{
+    color:var(--muted);
+    font-size:.95rem;
+    margin:0;
+    max-width:480px;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--navy);
+    color:#fff;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:1rem;
+    text-decoration:none;
+    padding:16px 28px;
+    border-radius:12px;
+    white-space:nowrap;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .btn:hover{ background:var(--blue); transform:translateY(-1px); }
+  .btn .arrow{ transition:transform .15s ease; }
+  .btn:hover .arrow{ transform:translateX(3px); }
+
+  /* ---------- NAV DOTS (hero) ---------- */
+  .stepnav{
+    display:flex;
+    gap:10px;
+    margin-top:36px;
+    flex-wrap:wrap;
+  }
+  .stepnav a{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.78rem;
+    color:#C7D2E2;
+    text-decoration:none;
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:999px;
+    padding:8px 16px;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .stepnav a:hover{
+    border-color:var(--cyan);
+    color:#fff;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:36px 0 48px;
+    text-align:center;
+  }
+  footer p{
+    font-size:.85rem;
+    color:var(--muted);
+    margin:4px 0;
+  }
+
+  @media (max-width:640px){
+    .hero{ padding:48px 0 40px; }
+    section.step{ padding:48px 0; }
+    .demo-card{ padding:24px; }
+    .btn{ width:100%; justify-content:center; }
+  }
+
+  /* respeta reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">OSDE · Nodo Buenos Aires Sur</p>
+    <h1>Sistema de Gestión de Prestadores de Discapacidad</h1>
+    <p class="lead">
+      Automatización end-to-end del circuito de postulaciones de prestadores:
+      desde la propuesta inicial hasta la alta, con trazabilidad completa
+      y cero costo de implementación.
+    </p>
+
+    <div class="pillars">
+      <div class="pillar"><b>Centralización total</b>del ciclo de vida de las contrataciones, hoy disperso en mails y planillas.</div>
+      <div class="pillar"><b>100% Google Workspace</b>desarrollado de forma nativa sobre Sheets + Apps Script.</div>
+      <div class="pillar"><b>Automatización inteligente</b>sincronización de altas y seguimiento de estados sin intervención manual.</div>
+    </div>
+
+    <p class="pipeline-label">El recorrido de una postulación, de punta a punta:</p>
+    <div class="pipeline">
+      <div class="pl-node"><div class="pl-dot"></div><div class="pl-name">Propuesto</div></div>
+      <div class="pl-line"></div>
+      <div class="pl-node"><div class="pl-dot"></div><div class="pl-name">Postulado</div></div>
+      <div class="pl-line"></div>
+      <div class="pl-node"><div class="pl-dot"></div><div class="pl-name">Asignado</div></div>
+      <div class="pl-line"></div>
+      <div class="pl-node"><div class="pl-dot"></div><div class="pl-name">Pendiente de<br>Experiencia</div></div>
+      <div class="pl-line"></div>
+      <div class="pl-fork">
+        <div class="pl-node is-final"><div class="pl-dot"></div><div class="pl-name">Contratado</div></div>
+        <div class="pl-node is-out"><div class="pl-dot"></div><div class="pl-name">No contratado</div></div>
+      </div>
+    </div>
+
+    <nav class="stepnav">
+      <a href="#historia">01 · La historia</a>
+      <a href="#presentacion">02 · La propuesta</a>
+      <a href="#demo">03 · Probar la herramienta</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ 01 · VIDEO ============ -->
+<section class="step" id="historia">
+  <div class="wrap">
+    <p class="eyebrow">01 — La historia</p>
+    <h2>El Enigma de las Postulaciones</h2>
+    <p class="desc">
+      Un recorrido de 3 minutos por el problema original — postulaciones
+      perdidas entre mails y planillas sueltas — y por cómo el nuevo panel
+      resuelve cada paso del circuito.
+    </p>
+
+    <div class="frame">
+      <!--
+        OPCIÓN A — Google Drive (recomendado):
+          1) Subir el video a Drive y compartir "Cualquiera con el enlace".
+          2) Tomar el FILE_ID de la URL para compartir.
+          3) Reemplazar el src de abajo por:
+             https://drive.google.com/file/d/FILE_ID/preview
+
+        OPCIÓN B — YouTube "No listado":
+          src="https://www.youtube.com/embed/VIDEO_ID"
+      -->
+      <iframe
+        src="https://drive.google.com/file/d/REEMPLAZAR_FILE_ID/preview"
+        title="Video: El Enigma de las Postulaciones"
+        allow="autoplay; fullscreen"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <p class="frame-caption">
+      Reemplazar <code>REEMPLAZAR_FILE_ID</code> por el ID del archivo en Drive
+      (o cambiar el <code>src</code> por un embed de YouTube).
+    </p>
+  </div>
+</section>
+
+<!-- ============ 02 · PRESENTACIÓN ============ -->
+<section class="step" id="presentacion">
+  <div class="wrap">
+    <p class="eyebrow">02 — La propuesta</p>
+    <h2>La presentación completa</h2>
+    <p class="desc">
+      El detalle de la arquitectura, las reglas de negocio y el impacto del
+      proyecto. Se abre directamente en modo presentación, sin barra de edición.
+    </p>
+
+    <div class="frame">
+      <!--
+        Cómo obtener el embed correcto:
+          1) Subir el .pptx a Drive (se convierte a Google Slides automáticamente
+             al abrirlo, o usar "Archivo > Guardar como Google Slides").
+          2) Archivo > Compartir > Cambiar a "Cualquiera con el enlace".
+          3) Tomar el ID de la presentación desde la URL:
+             https://docs.google.com/presentation/d/PRESENTATION_ID/edit
+          4) Reemplazar PRESENTATION_ID abajo. El parámetro start=true hace que
+             arranque directo en modo presentación (slideshow), sin toolbar.
+      -->
+      <iframe
+        src="https://docs.google.com/presentation/d/REEMPLAZAR_PRESENTATION_ID/embed?start=true&loop=false&delayms=5000"
+        title="Presentación del proyecto"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <p class="frame-caption">
+      Reemplazar <code>REEMPLAZAR_PRESENTATION_ID</code> por el ID de la presentación en Drive.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 03 · DEMO ============ -->
+<section class="step" id="demo">
+  <div class="wrap">
+    <p class="eyebrow">03 — Probar la herramienta</p>
+    <h2>Entrá al panel en modo demo</h2>
+    <p class="desc">
+      La misma interfaz que usa el equipo de Contrataciones todos los días
+      — Gestión, Carga, Postulaciones, Contratados y Estadísticas — pero con
+      datos ficticios, para que cualquier persona pueda recorrerla sin
+      necesidad de una cuenta de osde.com.ar.
+    </p>
+
+    <div class="demo-card">
+      <div class="copy">
+        <span class="demo-tag"><span class="dot"></span> Modo demo · datos ficticios</span>
+        <h3>Panel de Gestión de Postulaciones</h3>
+        <p>
+          Ningún nombre, número de socio o dato de contacto que veas acá
+          corresponde a una persona real.
+        </p>
+      </div>
+      <!-- Apunta al archivo del demo dentro del mismo repo de GitHub Pages -->
+      <a class="btn" href="mockup_postulaciones.html" target="_blank" rel="noopener">
+        Abrir herramienta demo <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Sistema de Gestión de Prestadores de Discapacidad</p>
+    <p>OSDE · Nodo Buenos Aires Sur</p>
+  </div>
+</footer>
+
+</body>
+</html>
