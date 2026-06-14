@@ -141,6 +141,58 @@
     padding-left:6px;
   }
 
+  /* ---------- ORIGEN ---------- */
+  .origin{
+    padding:64px 0;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  .origin .wrap{
+    display:grid;
+    grid-template-columns:1.05fr 1fr;
+    gap:48px;
+    align-items:center;
+  }
+  .origin h2{
+    font-size:clamp(1.5rem,3.4vw,2.2rem);
+    margin:10px 0 16px;
+    color:var(--navy);
+  }
+  .origin-copy p{
+    color:var(--ink);
+    font-size:.98rem;
+    max-width:520px;
+    margin:0 0 14px;
+  }
+  .origin-copy p:last-child{ margin-bottom:0; }
+  .origin-art-wrap{ text-align:center; }
+  .origin-art{ width:100%; max-width:420px; height:auto; }
+  .origin-art .link{ stroke:var(--line); stroke-width:2; }
+  .origin-art .link-cross{ stroke:#CBD8EC; stroke-width:1.5; stroke-dasharray:5 6; }
+  .origin-art .node-dot{ fill:#fff; stroke:var(--blue); stroke-width:2; }
+  .origin-art .node-dot.center{ fill:var(--navy); stroke:var(--navy); }
+  .origin-art .node-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    fill:var(--navy);
+    font-weight:500;
+    letter-spacing:.02em;
+  }
+  .origin-art .center-label{ fill:#fff; font-weight:700; }
+  .origin-art .envelope{ fill:#fff; stroke:#B8C6DE; stroke-width:1.5; }
+  .origin-art .envelope-flap{ fill:none; stroke:#B8C6DE; stroke-width:1.5; }
+  .origin-caption{
+    font-size:.85rem;
+    color:var(--muted);
+    margin-top:12px;
+  }
+
+  @media (max-width:780px){
+    .origin .wrap{ grid-template-columns:1fr; gap:24px; }
+    .origin-art-wrap{ order:-1; }
+    .origin-art{ max-width:320px; margin:0 auto; }
+  }
+
   /* ---------- SECTIONS ---------- */
   section.step{
     padding:64px 0;
@@ -340,6 +392,78 @@
   </div>
 </header>
 
+<!-- ============ ORIGEN ============ -->
+<section class="origin">
+  <div class="wrap">
+    <div class="origin-copy">
+      <p class="eyebrow">Cómo empezó todo</p>
+      <h2>Una sola postulación, cuatro sectores distintos</h2>
+      <p>
+        Antes de este panel, cada postulación arrancaba en una casilla de
+        mail y, si tenía suerte, terminaba semanas después de pasar —uno por
+        uno— por <strong>Contaduría</strong>, <strong>Experiencia</strong>,
+        <strong>Canales</strong> y <strong>Administración de Prestadores</strong>.
+        Cada sector con su propia bandeja, su propio ritmo, y sin ninguna
+        visibilidad sobre en qué paso estaba el resto.
+      </p>
+      <p>
+        El resultado: postulaciones que se perdían entre hilos de mails,
+        planillas paralelas que cada asesor armaba para no perder el rastro,
+        y la misma pregunta repitiéndose semana a semana — <em>"¿en qué quedó
+        esto?"</em> — sin una respuesta a la mano.
+      </p>
+      <p>
+        La idea del panel fue simple: un único lugar donde cada sector deja
+        su parte —el dato fiscal, la evaluación, el número de postulación, el
+        alta— y donde el estado de cada caso queda visible para todos, en
+        tiempo real, sin reenviar un solo mail.
+      </p>
+    </div>
+
+    <div class="origin-art-wrap">
+      <svg class="origin-art" viewBox="0 0 480 430" xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-label="Diagrama: una postulación conecta a los sectores de Contaduría, Experiencia, Canales y Administración de Prestadores">
+        <!-- conexiones cruzadas (el ida y vuelta de mails) -->
+        <line class="link-cross" x1="90" y1="70" x2="390" y2="345"/>
+        <line class="link-cross" x1="390" y1="70" x2="90" y2="345"/>
+        <!-- conexiones principales -->
+        <line class="link" x1="240" y1="210" x2="90"  y2="70"/>
+        <line class="link" x1="240" y1="210" x2="390" y2="70"/>
+        <line class="link" x1="240" y1="210" x2="90"  y2="345"/>
+        <line class="link" x1="240" y1="210" x2="390" y2="345"/>
+
+        <!-- sobres de mail sobre cada conexión -->
+        <g><rect class="envelope" x="153" y="131" width="24" height="18" rx="2"/><path class="envelope-flap" d="M153,131 L165,143 L177,131"/></g>
+        <g><rect class="envelope" x="303" y="131" width="24" height="18" rx="2"/><path class="envelope-flap" d="M303,131 L315,143 L327,131"/></g>
+        <g><rect class="envelope" x="153" y="268" width="24" height="18" rx="2"/><path class="envelope-flap" d="M153,268 L165,280 L177,268"/></g>
+        <g><rect class="envelope" x="303" y="268" width="24" height="18" rx="2"/><path class="envelope-flap" d="M303,268 L315,280 L327,268"/></g>
+
+        <!-- nodos de sectores -->
+        <circle class="node-dot" cx="90" cy="70" r="26"/>
+        <text class="node-label" x="90" y="32" text-anchor="middle">CONTADURÍA</text>
+
+        <circle class="node-dot" cx="390" cy="70" r="26"/>
+        <text class="node-label" x="390" y="32" text-anchor="middle">EXPERIENCIA</text>
+
+        <circle class="node-dot" cx="90" cy="345" r="26"/>
+        <text class="node-label" x="90" y="396" text-anchor="middle">CANALES</text>
+
+        <circle class="node-dot" cx="390" cy="345" r="26"/>
+        <text class="node-label" x="390" y="392" text-anchor="middle">ADMINISTRACIÓN</text>
+        <text class="node-label" x="390" y="408" text-anchor="middle">DE PRESTADORES</text>
+
+        <!-- nodo central -->
+        <circle class="node-dot center" cx="240" cy="210" r="44"/>
+        <text class="center-label" x="240" y="206" text-anchor="middle" font-size="12">UNA</text>
+        <text class="center-label" x="240" y="223" text-anchor="middle" font-size="12">POSTULACIÓN</text>
+      </svg>
+      <p class="origin-caption">
+        Cuatro sectores, conversaciones cruzadas, ningún lugar único donde mirar el estado.
+      </p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ 01 · VIDEO ============ -->
 <section class="step" id="historia">
   <div class="wrap">
@@ -377,7 +501,7 @@
 
     <div class="frame">
       <iframe
-        src="https://docs.google.com/presentation/d/1eT9ylgAVJ0_5ac4XSuAb-ElTpLtSAZOd/edit?usp=sharing&ouid=101784333254429693016&rtpof=true&sd=true"
+        src="https://docs.google.com/presentation/d/1eT9ylgAVJ0_5ac4XSuAb-ElTpLtSAZOd/embed?start=true&loop=false&delayms=5000"
         title="Presentación del proyecto"
         allowfullscreen>
       </iframe>
