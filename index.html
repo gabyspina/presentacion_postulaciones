@@ -379,6 +379,111 @@
   .btn .arrow{ transition:transform .15s ease; }
   .btn:hover .arrow{ transform:translateX(3px); }
 
+  /* ---------- TÉCNICO ---------- */
+  .tech-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:28px;
+    box-shadow:0 12px 36px -20px rgba(20,33,61,.20);
+  }
+  .tech-card.arch{ margin-bottom:24px; }
+  .tech-card h3{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.05rem;
+    color:var(--navy);
+    margin:0 0 14px;
+  }
+  .arch-scroll{
+    overflow-x:auto;
+    margin:-4px;
+    padding:4px;
+  }
+  .arch-diagram{
+    display:block;
+    width:100%;
+    min-width:680px;
+    height:auto;
+  }
+  .arch-diagram text{ font-family:'IBM Plex Mono',monospace; }
+  .arch-diagram .t-title{ font-size:14px; font-weight:600; fill:var(--navy); }
+  .arch-diagram .t-title.on-dark{ fill:#fff; }
+  .arch-diagram .t-sub{ font-size:11.5px; fill:var(--muted); }
+  .arch-diagram .t-sub.on-dark{ fill:#A9BBD6; }
+  .arch-diagram .t-label{ font-size:11px; fill:var(--blue); }
+  .arch-diagram .box{ fill:#fff; stroke:var(--line); stroke-width:1.5; }
+  .arch-diagram .box.accent{ fill:var(--navy); stroke:var(--navy); }
+  .arch-diagram .box.highlight{ stroke:var(--cyan); stroke-width:2; }
+  .arch-diagram .bullet{ fill:var(--blue); }
+  .arch-diagram .grid-cell{ fill:none; stroke:var(--line); stroke-width:1.2; }
+  .arch-diagram .grid-cell.head{ fill:rgba(45,212,218,.18); stroke:var(--line); }
+  .arch-diagram .conn{ stroke:var(--blue); stroke-width:2; fill:none; }
+  .arch-diagram .conn-dashed{ stroke:var(--cyan); stroke-width:2; fill:none; stroke-dasharray:5 5; }
+  .arch-caption{
+    font-size:.85rem;
+    color:var(--muted);
+    margin:14px 0 0;
+  }
+
+  .tech-grid{
+    display:grid;
+    grid-template-columns:1.15fr 1fr;
+    gap:24px;
+  }
+  .screens-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; }
+  .screens-list li{
+    display:flex; gap:10px;
+    font-size:.92rem; color:var(--ink);
+    line-height:1.4;
+  }
+  .screens-list b{
+    color:var(--navy);
+    min-width:120px;
+    flex-shrink:0;
+  }
+  .rules-list{ list-style:none; margin:0 0 22px; padding:0; display:flex; flex-direction:column; gap:10px; }
+  .rules-list li{
+    position:relative;
+    padding-left:18px;
+    font-size:.92rem;
+    color:var(--ink);
+    line-height:1.45;
+  }
+  .rules-list li::before{
+    content:'';
+    position:absolute; left:0; top:.5em;
+    width:7px; height:7px; border-radius:50%;
+    background:var(--cyan);
+  }
+  .legend h4{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.74rem;
+    letter-spacing:.12em;
+    color:var(--muted);
+    text-transform:uppercase;
+    margin:0 0 10px;
+  }
+  .legend-item{
+    display:flex; align-items:center; gap:10px;
+    font-size:.88rem; color:var(--ink);
+    margin-bottom:6px;
+  }
+  .swatch{
+    width:18px; height:18px;
+    border-radius:5px;
+    border:1px solid var(--line);
+    flex-shrink:0;
+  }
+  .swatch.yellow{ background:#FFF3C4; }
+  .swatch.white{ background:#FFFFFF; }
+  .swatch.green{ background:#D4EDDA; }
+
+  @media (max-width:760px){
+    .tech-grid{ grid-template-columns:1fr; }
+    .screens-list b{ min-width:100%; }
+    .screens-list li{ flex-direction:column; gap:2px; }
+  }
+
   /* ---------- NAV DOTS (hero) ---------- */
   .stepnav{
     display:flex;
@@ -532,6 +637,7 @@
       <a href="#historia">01 · La historia</a>
       <a href="#presentacion">02 · La propuesta</a>
       <a href="#demo">03 · Probar la herramienta</a>
+      <a href="#tecnico">04 · Cómo está hecho</a>
     </nav>
   </div>
 </header>
@@ -740,6 +846,162 @@
       <a class="btn" href="mockup_postulaciones.html" target="_blank" rel="noopener">
         Abrir herramienta demo <span class="arrow">→</span>
       </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 · TÉCNICO ============ -->
+<section class="step" id="tecnico">
+  <svg class="step-deco" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="1140" cy="60" r="140" fill="rgba(52,97,196,.10)"/>
+    <circle cx="50" cy="450" r="100" fill="none" stroke="rgba(45,212,218,.25)" stroke-width="1.5"/>
+    <circle cx="1100" cy="430" r="60" fill="rgba(255,255,255,.4)"/>
+    <rect x="60" y="40" width="80" height="80" rx="18" fill="none" stroke="rgba(20,33,61,.10)" stroke-width="1.5" transform="rotate(-10 100 80)"/>
+    <circle cx="640" cy="40" r="5" fill="rgba(52,97,196,.4)"/>
+    <circle cx="540" cy="460" r="6" fill="rgba(45,212,218,.5)"/>
+  </svg>
+  <div class="wrap">
+    <span class="section-icon">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6" y="6" width="28" height="28" rx="3"/>
+        <line x1="6" y1="16" x2="34" y2="16"/>
+        <line x1="6" y1="26" x2="34" y2="26"/>
+        <line x1="16" y1="6" x2="16" y2="34"/>
+        <line x1="26" y1="6" x2="26" y2="34"/>
+      </svg>
+    </span>
+    <p class="eyebrow">04 — Cómo está hecho</p>
+    <h2>Un Sheet, un script, seis pantallas</h2>
+    <p class="desc">
+      Todo corre sobre el stack nativo de Google: una planilla de Sheets como
+      base de datos, un único script de Apps Script (<code>Codigo.gs</code>)
+      como backend, y seis archivos HTML como interfaz. Sin servidores
+      externos, sin costos de hosting.
+    </p>
+
+    <div class="tech-card arch">
+      <h3>Cómo se conectan las piezas</h3>
+      <div class="arch-scroll">
+        <svg class="arch-diagram" viewBox="0 0 1000 440" xmlns="http://www.w3.org/2000/svg"
+             role="img" aria-label="Diagrama: las seis pantallas HTML llaman a Codigo.gs mediante google.script.run; Codigo.gs lee y escribe en el Sheet de Postulaciones; un trigger horario revisa Gmail y sincroniza los casos contratados.">
+          <defs>
+            <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#3461C4"/>
+            </marker>
+            <marker id="arrowCyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#2DD4DA"/>
+            </marker>
+          </defs>
+
+          <!-- conexiones -->
+          <path class="conn" marker-end="url(#arrowBlue)" d="M320,210 L394,210"/>
+          <text class="t-label" x="325" y="200">google.script.run</text>
+
+          <path class="conn" marker-end="url(#arrowBlue)" d="M600,185 L674,110"/>
+          <text class="t-label" x="610" y="155">lee / escribe filas</text>
+
+          <path class="conn-dashed" marker-end="url(#arrowCyan)" d="M674,330 C 630,330 600,300 600,250"/>
+          <text class="t-label" x="610" y="320">sincroniza</text>
+
+          <!-- Caja A: pantallas HTML -->
+          <rect class="box" x="20" y="20" width="300" height="400" rx="16"/>
+          <text class="t-title" x="40" y="50">PANTALLAS (HTML)</text>
+          <text class="t-sub" x="40" y="70">6 archivos · interfaz</text>
+          <line x1="40" y1="82" x2="290" y2="82" stroke="#B9D2F0"/>
+          <circle class="bullet" cx="46" cy="110" r="4"/><text class="t-title" x="60" y="114" font-size="13">Gestión</text>
+          <circle class="bullet" cx="46" cy="160" r="4"/><text class="t-title" x="60" y="164" font-size="13">Carga</text>
+          <circle class="bullet" cx="46" cy="210" r="4"/><text class="t-title" x="60" y="214" font-size="13">Postulaciones</text>
+          <circle class="bullet" cx="46" cy="260" r="4"/><text class="t-title" x="60" y="264" font-size="13">Contratados</text>
+          <circle class="bullet" cx="46" cy="310" r="4"/><text class="t-title" x="60" y="314" font-size="13">No contratados</text>
+          <circle class="bullet" cx="46" cy="360" r="4"/><text class="t-title" x="60" y="364" font-size="13">Estadísticas</text>
+
+          <!-- Caja B: Codigo.gs -->
+          <rect class="box accent" x="400" y="150" width="200" height="120" rx="16"/>
+          <text class="t-title on-dark" x="500" y="195" text-anchor="middle">CODIGO.GS</text>
+          <text class="t-sub on-dark" x="500" y="216" text-anchor="middle">backend · ~11 funciones</text>
+          <text class="t-sub on-dark" x="500" y="238" text-anchor="middle">actualizarEstado()</text>
+          <text class="t-sub on-dark" x="500" y="254" text-anchor="middle">sincronizarContratados()</text>
+
+          <!-- Caja C: Sheet -->
+          <rect class="box highlight" x="680" y="20" width="300" height="170" rx="16"/>
+          <text class="t-title" x="700" y="52">SHEET · POSTULACIONES</text>
+          <text class="t-sub" x="700" y="74">28 columnas (A → AB)</text>
+          <text class="t-sub" x="700" y="92">1 fila = 1 postulación</text>
+          <!-- mini grilla -->
+          <g>
+            <rect class="grid-cell head" x="700" y="106" width="34" height="16"/>
+            <rect class="grid-cell head" x="736" y="106" width="34" height="16"/>
+            <rect class="grid-cell head" x="772" y="106" width="34" height="16"/>
+            <rect class="grid-cell head" x="808" y="106" width="34" height="16"/>
+            <rect class="grid-cell head" x="844" y="106" width="34" height="16"/>
+            <rect class="grid-cell head" x="880" y="106" width="34" height="16"/>
+            <rect class="grid-cell head" x="916" y="106" width="34" height="16"/>
+            <rect class="grid-cell head" x="952" y="106" width="34" height="16"/>
+            <rect class="grid-cell" x="700" y="122" width="34" height="16"/>
+            <rect class="grid-cell" x="736" y="122" width="34" height="16"/>
+            <rect class="grid-cell" x="772" y="122" width="34" height="16"/>
+            <rect class="grid-cell" x="808" y="122" width="34" height="16"/>
+            <rect class="grid-cell" x="844" y="122" width="34" height="16"/>
+            <rect class="grid-cell" x="880" y="122" width="34" height="16"/>
+            <rect class="grid-cell" x="916" y="122" width="34" height="16"/>
+            <rect class="grid-cell" x="952" y="122" width="34" height="16"/>
+            <rect class="grid-cell" x="700" y="138" width="34" height="16"/>
+            <rect class="grid-cell" x="736" y="138" width="34" height="16"/>
+            <rect class="grid-cell" x="772" y="138" width="34" height="16"/>
+            <rect class="grid-cell" x="808" y="138" width="34" height="16"/>
+            <rect class="grid-cell" x="844" y="138" width="34" height="16"/>
+            <rect class="grid-cell" x="880" y="138" width="34" height="16"/>
+            <rect class="grid-cell" x="916" y="138" width="34" height="16"/>
+            <rect class="grid-cell" x="952" y="138" width="34" height="16"/>
+          </g>
+          <text class="t-sub" x="700" y="172">Fila = postulación · color = tipo de prestador</text>
+
+          <!-- Caja D: Gmail trigger -->
+          <rect class="box" x="680" y="250" width="300" height="150" rx="16"/>
+          <text class="t-title" x="700" y="282">GMAIL · TRIGGER HORARIO</text>
+          <text class="t-sub" x="700" y="306">Detecta el mail "Notificación de</text>
+          <text class="t-sub" x="700" y="324">Alta de Prestador – NNNN"</text>
+          <text class="t-sub" x="700" y="350">→ matchea Nº de postulación</text>
+          <text class="t-sub" x="700" y="368">→ pasa el caso a "Contratado"</text>
+        </svg>
+      </div>
+      <p class="arch-caption">
+        Las pantallas llaman funciones de <code>Codigo.gs</code> vía
+        <code>google.script.run</code>; el script lee y escribe directamente
+        en el Sheet; un trigger horario revisa Gmail y sincroniza las altas
+        sin intervención manual.
+      </p>
+    </div>
+
+    <div class="tech-grid">
+      <div class="tech-card">
+        <h3>Las 6 pantallas</h3>
+        <ul class="screens-list">
+          <li><b>Gestión</b> Panel principal, con filtros por filial, tipo, estado y asesor asignado.</li>
+          <li><b>Carga</b> Alta de una nueva postulación, formulario único en 4 secciones.</li>
+          <li><b>Postulaciones</b> Seguimiento de los casos en curso (ex "Seguimiento").</li>
+          <li><b>Contratados</b> Listado ordenado por fecha de alta; los casos de los últimos 7 días quedan resaltados.</li>
+          <li><b>No contratados</b> Casos cerrados sin contratación.</li>
+          <li><b>Estadísticas</b> KPIs y gráficos por filial, estado y asesor.</li>
+        </ul>
+      </div>
+
+      <div class="tech-card">
+        <h3>Reglas del circuito</h3>
+        <ul class="rules-list">
+          <li>No se puede cambiar el estado ni cargar observaciones sin un responsable asignado.</li>
+          <li>El número de postulación es obligatorio para avanzar desde "Postulado" — es la llave que usa Administración de Prestadores.</li>
+          <li>Los casos "No existe en PD" generan además un ticket asignado al asesor de "Evaluación de otro sector".</li>
+          <li>El ticket de Link sigue siendo el respaldo: de ahí se descarga la documentación para adjuntar a la postulación.</li>
+        </ul>
+
+        <div class="legend">
+          <h4>Código de colores por tipo de prestador</h4>
+          <div class="legend-item"><span class="swatch yellow"></span> "No existe en PD" — prioritario</div>
+          <div class="legend-item"><span class="swatch white"></span> "Dado de alta en PD"</div>
+          <div class="legend-item"><span class="swatch green"></span> Prestador sin código / Fuera de MI</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
