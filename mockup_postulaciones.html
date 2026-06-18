@@ -8,6 +8,66 @@
   * { box-sizing: border-box; }
   body { font-family: 'Segoe UI', sans-serif; padding: 20px; background: #f0f2f5; margin: auto; max-width: 1400px; }
 
+  /* Tabla expandible Gestión */
+  table.tabla-exp { table-layout: fixed; }
+  table.tabla-exp th { overflow: hidden; text-overflow: ellipsis; }
+  table.tabla-exp td { overflow: hidden; text-overflow: ellipsis; vertical-align: middle; }
+  tr.data-row { cursor: pointer; transition: background .1s; }
+  tr.data-row:hover td { background: #eaf1fb !important; }
+  tr.data-row.fila-abierta td { background: #ddeeff !important; border-bottom: none; }
+  tr.fila-nuevo.fila-abierta td { background: #ffe0a0 !important; }
+  tr.fila-verde.fila-abierta td { background: #b8dfc5 !important; }
+  .chevron { font-size: 12px; color: #aaa; transition: transform .2s; display: inline-block; }
+  .chevron.open { transform: rotate(90deg); color: #0F4C75; }
+  tr.detail-row td { padding: 0; background: #f0f4ff !important; border-bottom: 2px solid #b8cef0; }
+  .detail-card { display: none; padding: 16px; }
+  .detail-card.open { display: block; animation: fadeIn .15s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+  .det-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #c8d8f0; }
+  .det-avatar { width: 40px; height: 40px; border-radius: 50%; background: #0F4C75; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+  .det-name { font-size: 15px; font-weight: 600; color: #0F4C75; }
+  .det-sub { font-size: 12px; color: #888; margin-top: 2px; }
+  .det-acciones { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; padding: 10px 12px; background: #fff; border-radius: 8px; border: 1px solid #dde; flex-wrap: wrap; }
+  .det-acciones label { font-size: 12px; font-weight: 700; color: #555; white-space: nowrap; }
+  .sel-asig-det { font-size: 13px; border: 1px solid #ccc; border-radius: 5px; padding: 3px 6px; height: 28px; max-width: 140px; }
+  .inp-nropost { width: 100px; font-size: 13px; border: 1px solid #ccc; border-radius: 5px; padding: 3px 6px; height: 28px; }
+  .btn-ok { background: #2e7d32; color: #fff; border: none; border-radius: 5px; padding: 0 10px; height: 30px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .btn-ok:hover { background: #1b5e20; }
+  .sep { width: 1px; height: 24px; background: #dde; flex-shrink: 0; margin: 0 4px; }
+  .det-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 14px; }
+  .det-field label { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.4px; display: block; margin-bottom: 3px; }
+  .det-field .dval { font-size: 13px; color: #222; background: #fff; border: 0.5px solid #dde; border-radius: 4px; padding: 4px 7px; display: flex; justify-content: space-between; align-items: center; gap: 4px; }
+  .det-field .dval span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .btn-copiar-det { background: #4a235a; color: #fff; border: none; border-radius: 3px; padding: 2px 8px; font-size: 11px; cursor: pointer; flex-shrink: 0; white-space: nowrap; }
+  .btn-copiar-det:hover { background: #6c3483; }
+  .obs-section { background: #fff; border: 0.5px solid #dde; border-radius: 6px; padding: 10px 12px; }
+  .obs-section-title { font-size: 12px; font-weight: 700; color: #4a235a; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 8px; }
+  .obs-empty { font-size: 13px; color: #aaa; font-style: italic; }
+  .obs-input-area { display: flex; gap: 6px; }
+  .obs-textarea { flex: 1; font-size: 13px; border: 1px solid #ccc; border-radius: 5px; padding: 5px 8px; resize: none; height: 36px; font-family: inherit; }
+  .btn-guardar-obs { padding: 0 12px; height: 36px; background: #2e7d32; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .btn-guardar-obs:hover { background: #1b5e20; }
+
+  /* Estadísticas */
+  .stats-kpis { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+  .kpi { background: #fff; border-radius: 12px; padding: 18px 22px; flex: 1; min-width: 150px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); text-align: center; border-top: 4px solid #0F4C75; }
+  .kpi.verde    { border-top-color: #2e7d32; }
+  .kpi.amarillo { border-top-color: #f9a825; }
+  .kpi.rojo     { border-top-color: #c62828; }
+  .kpi .num { font-size: 34px; font-weight: 800; color: #0F4C75; }
+  .kpi.verde .num    { color: #2e7d32; }
+  .kpi.amarillo .num { color: #b58908; }
+  .kpi.rojo .num     { color: #c62828; }
+  .kpi .lbl { font-size: 12px; color: #777; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+  .stats-grid { display: flex; gap: 16px; flex-wrap: wrap; }
+  .stats-panel { background: #fff; border-radius: 12px; padding: 20px 22px; flex: 1; min-width: 340px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+  .stats-panel h3 { margin: 0 0 14px 0; font-size: 14px; color: #0F4C75; }
+  .barra-fila { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; font-size: 12px; }
+  .barra-fila .blbl { width: 140px; color: #555; font-weight: 600; text-align: right; }
+  .barra-cont { flex: 1; background: #eef2f5; border-radius: 6px; height: 22px; overflow: hidden; }
+  .barra { height: 100%; background: linear-gradient(90deg, #0F4C75, #3a9bd5); border-radius: 6px; display: flex; align-items: center; justify-content: flex-end; padding-right: 7px; color: #fff; font-size: 11px; font-weight: 700; min-width: 24px; transition: width 0.6s ease; }
+  .barra.verde { background: linear-gradient(90deg, #2e7d32, #66bb6a); }
+
   .demo-banner { background: linear-gradient(135deg, #4a235a, #6c3483); color: #fff; text-align: center; padding: 8px 15px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; font-weight: 600; }
 
   nav { background: #0F4C75; padding: 10px 14px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -115,9 +175,10 @@
   <h1>Sistema de Postulaciones — Discapacidad</h1>
   <button id="nav-carga" onclick="irA('carga')">📝 Cargar propuesta</button>
   <button id="nav-gestion" class="activo" onclick="irA('gestion')">⚙️ Gestión</button>
-  <button id="nav-seguimiento" onclick="irA('seguimiento')">🔍 Seguimiento</button>
+  <button id="nav-seguimiento" onclick="irA('seguimiento')">📋 Postulaciones</button>
   <button id="nav-contratados" onclick="irA('contratados')">✅ Contratados</button>
   <button id="nav-nocontratados" onclick="irA('nocontratados')">❌ No contratados</button>
+  <button id="nav-stats" onclick="irA('stats')">📊 Estadísticas</button>
 </nav>
 
 <div class="user-bar">
@@ -214,7 +275,7 @@
     <div class="form-fila">
       <div class="form-grupo">
         <label>Especialidad</label>
-        <select id="cEsp">
+        <select id="cEsp" onchange="toggleValor()">
           <option>Kinesiología</option><option>Fonoaudiología</option><option>Terapia Ocupacional</option>
           <option>Escuela Especial</option><option>Centro de día</option><option>Psicología</option>
           <option>Psicopedagogía</option><option>CET</option><option>Transporte</option>
@@ -227,6 +288,25 @@
         <input type="text" id="cNroProf" placeholder="12345">
       </div>
     </div>
+
+    <!-- Valor de la prestación según especialidad -->
+    <div class="form-fila" id="grpValorMensual" style="display:none;">
+      <div class="form-grupo">
+        <label>Valor mensual de la prestación</label>
+        <input type="number" id="cValorMensual" placeholder="Ej: 150000">
+      </div>
+    </div>
+    <div class="form-fila" id="grpValorSesionada" style="display:none;">
+      <div class="form-grupo">
+        <label>Sesiones semanales</label>
+        <input type="number" id="cSesiones" placeholder="Ej: 2">
+      </div>
+      <div class="form-grupo">
+        <label>Valor por sesión</label>
+        <input type="number" id="cValorSesion" placeholder="Ej: 8000">
+      </div>
+    </div>
+
     <div class="form-fila" id="grpContacto">
       <div class="form-grupo">
         <label>Teléfono</label>
@@ -273,6 +353,11 @@
   <div id="tablaNoContratados"></div>
 </div>
 
+<!-- ============ PANTALLA ESTADÍSTICAS ============ -->
+<div class="pantalla" id="pantalla-stats">
+  <div id="contenidoStats"></div>
+</div>
+
 <!-- Modal contacto -->
 <div class="modal-overlay" id="modalContacto" onclick="if(event.target===this) this.classList.remove('activo')">
   <div class="modal">
@@ -302,21 +387,20 @@ var CLS = { 'Propuesto':'propuesto','Postulado':'postulado','Asignado':'asignado
 
 // id, filial, ciudad, tipo, nombre, especialidad, tel, mail, fecha, nroSocio, socio, ticket, medida, estado, asignado, nroPost, cuit, obs[], fechaContr
 var registros = [
-  { id:1, filial:'Mar del Plata', ciudad:'Mar del Plata', tipo:'Nuevo', nombre:'LOPEZ MARIA JOSE', esp:'Kinesiología', tel:'223-5550101', mail:'mjlopez@mail.com', fecha:'02/06/2026', nroSocio:'62791000001', socio:'PEREZ JUAN IGNACIO', ticket:'1010900001', medida:'No', estado:'Propuesto', asignado:'', nroPost:'', cuit:'27-21345678-3', obs:[], fechaContr:'' },
-  { id:2, filial:'Lobos', ciudad:'Navarro', tipo:'Nuevo', nombre:'GUTIERREZ CARLA', esp:'Terapia Ocupacional', tel:'2227-441122', mail:'cgutierrez@mail.com', fecha:'03/06/2026', nroSocio:'62791000002', socio:'DIAZ LUCIA', ticket:'1010900002', medida:'Si', estado:'Propuesto', asignado:'', nroPost:'', cuit:'27-25789456-1', obs:[], fechaContr:'' },
-  { id:3, filial:'Bahía Blanca', ciudad:'Bahía Blanca', tipo:'Existente', nombre:'FERNANDEZ PABLO', esp:'Psicología', tel:'291-4556677', mail:'pfernandez@mail.com', fecha:'28/05/2026', nroSocio:'62791000003', socio:'MOLINA SOFIA', ticket:'1010900003', medida:'No', estado:'Postulado', asignado:'Valeria Sabia', nroPost:'5007326001', cuit:'20-28456123-7', obs:[{meta:'29/05/2026 10:14 - usuario.demo@osde.com.ar - Asignado a: Valeria Sabia', texto:'Se envió documentación a postulación.'}], fechaContr:'' },
-  { id:4, filial:'Mar del Plata', ciudad:'Miramar', tipo:'Prestador', nombre:'CENTRO CRECER SRL', esp:'Centro de día', tel:'223-5550404', mail:'admin@crecer.com', fecha:'25/05/2026', nroSocio:'62791000004', socio:'TORRES BENJAMIN', ticket:'1010900004', medida:'No', estado:'Pendiente de Experiencia', asignado:'Miguel Cuezzo', nroPost:'5007326002', cuit:'30-71234567-9', obs:[{meta:'26/05/2026 09:30 - usuario.demo@osde.com.ar - Asignado a: Miguel Cuezzo', texto:'Prestador con convenio previo, falta agregar códigos de disca.'}], fechaContr:'' },
-  { id:5, filial:'La Plata', ciudad:'City Bell', tipo:'FueraMI', nombre:'INSTITUTO AURORA', esp:'Escuela Especial', tel:'221-4889900', mail:'direccion@aurora.edu', fecha:'30/05/2026', nroSocio:'62791000005', socio:'RAMIREZ VALENTINA', ticket:'1010900005', medida:'No', estado:'Propuesto', asignado:'', nroPost:'', cuit:'30-65987412-3', obs:[], fechaContr:'' },
-  { id:6, filial:'Buenos Aires Centro', ciudad:'CABA', tipo:'Nuevo', nombre:'SOSA MARTIN', esp:'Fonoaudiología', tel:'11-45556666', mail:'msosa@mail.com', fecha:'05/06/2026', nroSocio:'62791000006', socio:'CASTRO EMILIA', ticket:'1010900006', medida:'No', estado:'Postulado', asignado:'Rosana Grossi', nroPost:'', cuit:'20-31456789-5', obs:[], fechaContr:'' },
-  { id:7, filial:'Lobos', ciudad:'Lobos', tipo:'Existente', nombre:'BIANCHI LAURA', esp:'Psicopedagogía', tel:'2227-455667', mail:'lbianchi@mail.com', fecha:'01/06/2026', nroSocio:'62791000007', socio:'AGUIRRE TOMAS', ticket:'1010900007', medida:'No', estado:'Asignado', asignado:'Andrea Soto', nroPost:'', cuit:'27-29654321-8', obs:[], fechaContr:'' },
-  { id:8, filial:'Mar del Plata', ciudad:'Balcarce', tipo:'Nuevo', nombre:'TRANSPORTE SAN JOSE', esp:'Transporte', tel:'2266-433221', mail:'sanjose@mail.com', fecha:'04/06/2026', nroSocio:'62791000008', socio:'VEGA FRANCISCO', ticket:'1010900008', medida:'Si', estado:'Propuesto', asignado:'', nroPost:'', cuit:'30-70888999-1', obs:[], fechaContr:'' },
-  { id:9, filial:'Bahía Blanca', ciudad:'Punta Alta', tipo:'Existente', nombre:'MORENO DIEGO', esp:'Musicoterapia', tel:'291-4778899', mail:'dmoreno@mail.com', fecha:'20/05/2026', nroSocio:'62791000009', socio:'RIOS MARTINA', ticket:'1010900009', medida:'No', estado:'Contratado', asignado:'Manuel Puig', nroPost:'5007325900', cuit:'20-27123987-4', obs:[], fechaContr:'06/06/2026' },
-  { id:10, filial:'La Plata', ciudad:'La Plata', tipo:'Nuevo', nombre:'ACUÑA PAULA', esp:'Maestra de Apoyo', tel:'221-4332211', mail:'pacuna@mail.com', fecha:'15/05/2026', nroSocio:'62791000010', socio:'SILVA BAUTISTA', ticket:'1010900010', medida:'No', estado:'No contratado', asignado:'Karina Zerauschek', nroPost:'5007325800', cuit:'27-26789123-6', obs:[{meta:'22/05/2026 14:50 - usuario.demo@osde.com.ar - Asignado a: Karina Zerauschek', texto:'No acepta los valores del convenio.'}], fechaContr:'' },
-  { id:11, filial:'Mar del Plata', ciudad:'Mar del Plata', tipo:'Existente', nombre:'PAEZ VERONICA', esp:'Integración Escolar', tel:'223-5551111', mail:'vpaez@mail.com', fecha:'27/05/2026', nroSocio:'62791000011', socio:'NUÑEZ ISABELLA', ticket:'1010900011', medida:'No', estado:'Contratado', asignado:'Valeria Sabia', nroPost:'5007325700', cuit:'27-24456789-2', obs:[], fechaContr:'09/06/2026' }
+  { id:1, filial:'Mar del Plata', ciudad:'Mar del Plata', tipo:'Nuevo', nombre:'LOPEZ MARIA JOSE', esp:'Kinesiología', tel:'223-5550101', mail:'mjlopez@mail.com', fecha:'02/06/2026', nroSocio:'62791000001', socio:'PEREZ JUAN IGNACIO', ticket:'1010900001', medida:'No', estado:'Propuesto', asignado:'', nroPost:'', cuit:'27-21345678-3', obs:[], fechaContr:'', tipoPrest:'sesionada', valor:8000, sesiones:2 },
+  { id:2, filial:'Lobos', ciudad:'Navarro', tipo:'Nuevo', nombre:'GUTIERREZ CARLA', esp:'Terapia Ocupacional', tel:'2227-441122', mail:'cgutierrez@mail.com', fecha:'03/06/2026', nroSocio:'62791000002', socio:'DIAZ LUCIA', ticket:'1010900002', medida:'Si', estado:'Propuesto', asignado:'', nroPost:'', cuit:'27-25789456-1', obs:[], fechaContr:'', tipoPrest:'sesionada', valor:9500, sesiones:3 },
+  { id:3, filial:'Bahía Blanca', ciudad:'Bahía Blanca', tipo:'Existente', nombre:'FERNANDEZ PABLO', esp:'Psicología', tel:'291-4556677', mail:'pfernandez@mail.com', fecha:'28/05/2026', nroSocio:'62791000003', socio:'MOLINA SOFIA', ticket:'1010900003', medida:'No', estado:'Postulado', asignado:'Valeria Sabia', nroPost:'5007326001', cuit:'20-28456123-7', obs:[{meta:'29/05/2026 10:14 - usuario.demo@osde.com.ar - Asignado a: Valeria Sabia', texto:'Se envió documentación a postulación.'}], fechaContr:'', tipoPrest:'sesionada', valor:11000, sesiones:1 },
+  { id:4, filial:'Mar del Plata', ciudad:'Miramar', tipo:'Prestador', nombre:'CENTRO CRECER SRL', esp:'Centro de día', tel:'223-5550404', mail:'admin@crecer.com', fecha:'25/05/2026', nroSocio:'62791000004', socio:'TORRES BENJAMIN', ticket:'1010900004', medida:'No', estado:'Pendiente de Experiencia', asignado:'Miguel Cuezzo', nroPost:'5007326002', cuit:'30-71234567-9', obs:[{meta:'26/05/2026 09:30 - usuario.demo@osde.com.ar - Asignado a: Miguel Cuezzo', texto:'Prestador con convenio previo, falta agregar códigos de disca.'}], fechaContr:'', tipoPrest:'mensual', valor:320000, sesiones:'' },
+  { id:5, filial:'La Plata', ciudad:'City Bell', tipo:'FueraMI', nombre:'INSTITUTO AURORA', esp:'Escuela Especial', tel:'221-4889900', mail:'direccion@aurora.edu', fecha:'30/05/2026', nroSocio:'62791000005', socio:'RAMIREZ VALENTINA', ticket:'1010900005', medida:'No', estado:'Propuesto', asignado:'', nroPost:'', cuit:'30-65987412-3', obs:[], fechaContr:'', tipoPrest:'mensual', valor:450000, sesiones:'' },
+  { id:6, filial:'Buenos Aires Centro', ciudad:'CABA', tipo:'Nuevo', nombre:'SOSA MARTIN', esp:'Fonoaudiología', tel:'11-45556666', mail:'msosa@mail.com', fecha:'05/06/2026', nroSocio:'62791000006', socio:'CASTRO EMILIA', ticket:'1010900006', medida:'No', estado:'Postulado', asignado:'Rosana Grossi', nroPost:'', cuit:'20-31456789-5', obs:[], fechaContr:'', tipoPrest:'sesionada', valor:8500, sesiones:2 },
+  { id:7, filial:'Lobos', ciudad:'Lobos', tipo:'Existente', nombre:'BIANCHI LAURA', esp:'Psicopedagogía', tel:'2227-455667', mail:'lbianchi@mail.com', fecha:'01/06/2026', nroSocio:'62791000007', socio:'AGUIRRE TOMAS', ticket:'1010900007', medida:'No', estado:'Asignado', asignado:'Andrea Soto', nroPost:'', cuit:'27-29654321-8', obs:[], fechaContr:'', tipoPrest:'sesionada', valor:10000, sesiones:2 },
+  { id:8, filial:'Mar del Plata', ciudad:'Balcarce', tipo:'Nuevo', nombre:'TRANSPORTE SAN JOSE', esp:'Transporte', tel:'2266-433221', mail:'sanjose@mail.com', fecha:'04/06/2026', nroSocio:'62791000008', socio:'VEGA FRANCISCO', ticket:'1010900008', medida:'Si', estado:'Propuesto', asignado:'', nroPost:'', cuit:'30-70888999-1', obs:[], fechaContr:'', tipoPrest:'', valor:'', sesiones:'' },
+  { id:9, filial:'Bahía Blanca', ciudad:'Punta Alta', tipo:'Existente', nombre:'MORENO DIEGO', esp:'Musicoterapia', tel:'291-4778899', mail:'dmoreno@mail.com', fecha:'20/05/2026', nroSocio:'62791000009', socio:'RIOS MARTINA', ticket:'1010900009', medida:'No', estado:'Contratado', asignado:'Manuel Puig', nroPost:'5007325900', cuit:'20-27123987-4', obs:[], fechaContr:'06/06/2026', tipoPrest:'sesionada', valor:9000, sesiones:1 },
+  { id:10, filial:'La Plata', ciudad:'La Plata', tipo:'Nuevo', nombre:'ACUÑA PAULA', esp:'Maestra de Apoyo', tel:'221-4332211', mail:'pacuna@mail.com', fecha:'15/05/2026', nroSocio:'62791000010', socio:'SILVA BAUTISTA', ticket:'1010900010', medida:'No', estado:'No contratado', asignado:'Karina Zerauschek', nroPost:'5007325800', cuit:'27-26789123-6', obs:[{meta:'22/05/2026 14:50 - usuario.demo@osde.com.ar - Asignado a: Karina Zerauschek', texto:'No acepta los valores del convenio.'}], fechaContr:'', tipoPrest:'sesionada', valor:7500, sesiones:2 },
+  { id:11, filial:'Mar del Plata', ciudad:'Mar del Plata', tipo:'Existente', nombre:'PAEZ VERONICA', esp:'Integración Escolar', tel:'223-5551111', mail:'vpaez@mail.com', fecha:'27/05/2026', nroSocio:'62791000011', socio:'NUÑEZ ISABELLA', ticket:'1010900011', medida:'No', estado:'Contratado', asignado:'Valeria Sabia', nroPost:'5007325700', cuit:'27-24456789-2', obs:[], fechaContr:'09/06/2026', tipoPrest:'mensual', valor:280000, sesiones:'' }
 ];
 
 var ultimoId = 11;
-var GESTION_COLS = ['Fecha','Filial','Localidad','Nombre profesional','Especialidad','Datos','Estado','Asignado a','N° Postulación','Tipo','Observaciones','Ticket','Nombre socio','Nro socio','Medida judicial'];
 
 // ================== NAVEGACIÓN ==================
 function irA(p) {
@@ -328,6 +412,7 @@ function irA(p) {
   if (p === 'seguimiento') renderSeguimiento();
   if (p === 'contratados') renderContratados();
   if (p === 'nocontratados') renderNoContratados();
+  if (p === 'stats') renderStats();
 }
 
 // ================== TOAST ==================
@@ -342,9 +427,38 @@ function aviso(msj, tipo) {
   window._tt = setTimeout(function(){ t.classList.remove('visible'); setTimeout(function(){ t.style.display='none'; },300); }, 3200);
 }
 
-// ================== GESTIÓN ==================
+// ================== GESTIÓN (filas expandibles) ==================
+var filaExpandida = null;
+
 function tipoDisplay(t) {
-  return { 'Nuevo':'No en PD', 'Existente':'En PD', 'Prestador':'Prest. sin código', 'FueraMI':'Prest. fuera de MI' }[t] || t;
+  if (t==='Nuevo') return 'No en PD';
+  if (t==='Existente') return 'En PD';
+  if (t==='Prestador') return 'Sin código';
+  if (t==='FueraMI'||t==='Prestador no incluido en el MI') return 'Fuera MI';
+  return t||'—';
+}
+
+// Valor mensual: mensual = valor directo; sesionada = valor × sesiones × 4; sin datos = null
+function calcularValorMensual(r) {
+  if (r.tipoPrest === 'mensual' && r.valor) return Number(r.valor);
+  if (r.tipoPrest === 'sesionada' && r.valor && r.sesiones) return Number(r.valor) * Number(r.sesiones) * 4;
+  return null;
+}
+function renderValorMensual(r) {
+  var v = calcularValorMensual(r);
+  if (v === null || isNaN(v)) return '<span style="color:#aaa">—</span>';
+  return '<span style="color:#2e7d32;font-weight:600;">$ ' + v.toLocaleString('es-AR', { maximumFractionDigits: 0 }) + '</span>';
+}
+var ordenValorAsc = false;
+function ordenarPorValor() {
+  window._ordenarValor = true;
+  ordenValorAsc = !ordenValorAsc;
+  renderGestion();
+}
+
+function initials(nombre) {
+  var p = String(nombre||'').trim().split(' ');
+  return ((p[0] && p[0][0]) || '') + ((p[1] && p[1][0]) || '');
 }
 
 function renderGestion() {
@@ -361,46 +475,168 @@ function renderGestion() {
       && (!bus || r.nombre.toLowerCase().includes(bus));
   });
 
+  if (window._ordenarValor) {
+    datos.sort(function(a, b) {
+      var va = calcularValorMensual(a), vb = calcularValorMensual(b);
+      if (va === null) va = -1;
+      if (vb === null) vb = -1;
+      return ordenValorAsc ? va - vb : vb - va;
+    });
+  }
+
   document.getElementById('contadorGestion').innerText = datos.length + ' postulación/es activas';
 
-  var h = '<div class="tabla-wrapper"><table><thead><tr>';
-  GESTION_COLS.forEach(function(c){ h += '<th>' + c + '</th>'; });
+  var COLS = [
+    { lbl:'', w:'28px' }, { lbl:'Fecha', w:'80px' }, { lbl:'Filial', w:'105px' },
+    { lbl:'Localidad', w:'100px' }, { lbl:'Especialidad', w:'130px' },
+    { lbl:'Valor mensual', w:'95px', val:true }, { lbl:'Tipo', w:'78px' },
+    { lbl:'Estado', w:'150px' }, { lbl:'Asignado a', w:'120px' }
+  ];
+
+  var h = '<div class="tabla-wrapper"><table class="tabla-exp"><colgroup>';
+  COLS.forEach(function(c){ h += '<col style="width:'+c.w+'">'; });
+  h += '</colgroup><thead><tr>';
+  COLS.forEach(function(c){
+    if (c.val) h += '<th onclick="ordenarPorValor()" style="cursor:pointer;" title="Ordenar por valor">' + c.lbl + ' ⇅</th>';
+    else h += '<th>' + c.lbl + '</th>';
+  });
   h += '</tr></thead><tbody>';
 
   datos.forEach(function(r) {
-    var cls = '';
-    if (r.tipo === 'Nuevo') cls = 'fila-nuevo';
-    else if (r.tipo === 'Prestador' || r.tipo === 'FueraMI') cls = 'fila-verde';
-    h += '<tr' + (cls ? ' class="'+cls+'"' : '') + '>';
+    var isOpen = filaExpandida === r.id;
+    var cls = r.tipo === 'Nuevo' ? 'fila-nuevo' : (r.tipo === 'Prestador' || r.tipo === 'FueraMI') ? 'fila-verde' : '';
+    h += '<tr class="data-row ' + cls + (isOpen?' fila-abierta':'') + '" onclick="toggleFila(' + r.id + ')">';
+    h += '<td><span class="chevron' + (isOpen?' open':'') + '">▶</span></td>';
     h += '<td>' + r.fecha + '</td><td>' + r.filial + '</td><td>' + r.ciudad + '</td>';
-    h += '<td><strong>' + r.nombre + '</strong></td><td>' + r.esp + '</td>';
-    h += '<td><button class="btn-contacto" onclick="verContacto(' + r.id + ')">📋 Ver</button></td>';
-    // Estado editable
-    h += '<td><div style="display:flex;gap:4px;align-items:center;">'
-       + '<select id="est-' + r.id + '" class="select-estado ' + (CLS[r.estado]||'propuesto') + '" '
-       + 'onchange="this.className=\'select-estado \'+CLS[this.value]">'
-       + ESTADOS.map(function(e){ return '<option' + (e===r.estado?' selected':'') + '>' + e + '</option>'; }).join('')
-       + '</select><button class="btn-confirmar" onclick="confEstado(' + r.id + ')">✓</button></div></td>';
-    // Asignado
-    h += '<td><div style="display:flex;gap:4px;align-items:center;">'
-       + '<select id="asig-' + r.id + '" class="select-asignado"><option value="">Sin asignar</option>'
-       + EQUIPO.map(function(u){ return '<option' + (u===r.asignado?' selected':'') + '>' + u + '</option>'; }).join('')
-       + '</select><button class="btn-confirmar" onclick="confAsignado(' + r.id + ')">✓</button></div></td>';
-    // Nro post
-    if (r.estado === 'Postulado' && !r.nroPost) {
-      h += '<td><div style="display:flex;gap:4px;align-items:center;">'
-         + '<input type="number" class="input-nropost" id="np-' + r.id + '" placeholder="N° postulación">'
-         + '<button class="btn-confirmar" onclick="confNroPost(' + r.id + ')">✓</button></div></td>';
-    } else {
-      h += '<td>' + (r.nroPost ? '<strong>' + r.nroPost + '</strong>' : '<span style="color:#aaa">—</span>') + '</td>';
-    }
-    h += '<td>' + tipoDisplay(r.tipo) + '</td>';
-    h += '<td><button class="btn-obs" onclick="verObs(' + r.id + ')">💬 ' + r.obs.length + '</button></td>';
-    h += '<td>' + r.ticket + '</td><td>' + r.socio + '</td><td>' + r.nroSocio + '</td><td>' + r.medida + '</td>';
+    h += '<td title="'+r.esp+'">' + r.esp + '</td>';
+    h += '<td>' + renderValorMensual(r) + '</td>';
+    h += '<td style="color:#666;">' + tipoDisplay(r.tipo) + '</td>';
+    h += '<td><span class="badge badge-' + (CLS[r.estado]||'propuesto') + '">' + r.estado + '</span></td>';
+    h += '<td>' + (r.asignado ? r.asignado : '<span style="color:#aaa;">Sin asignar</span>') + '</td>';
     h += '</tr>';
+    h += '<tr class="detail-row"><td colspan="' + COLS.length + '">';
+    h += '<div class="detail-card' + (isOpen?' open':'') + '">';
+    if (isOpen) h += renderCard(r);
+    h += '</div></td></tr>';
   });
   h += '</tbody></table></div>';
   document.getElementById('tablaGestion').innerHTML = h;
+}
+
+function toggleFila(id) {
+  filaExpandida = (filaExpandida === id) ? null : id;
+  renderGestion();
+}
+
+function renderCard(r) {
+  var medida = r.medida || 'No';
+  var h = '';
+  h += '<div class="det-header">';
+  h += '<div class="det-avatar">' + initials(r.nombre).toUpperCase() + '</div>';
+  h += '<div><div class="det-name">' + r.nombre + '</div>';
+  h += '<div class="det-sub">' + r.esp + ' · ' + r.ciudad + ' · ' + r.filial + ' · ' + tipoDisplay(r.tipo) + '</div></div>';
+  h += '</div>';
+
+  // Acciones
+  h += '<div class="det-acciones">';
+  h += '<label>Asignado a:</label>';
+  h += '<select id="card-asig-' + r.id + '" class="sel-asig-det" onclick="event.stopPropagation()"><option value="">Sin asignar</option>';
+  EQUIPO.forEach(function(u){ h += '<option' + (u===r.asignado?' selected':'') + '>' + u + '</option>'; });
+  h += '</select><button class="btn-ok" onclick="event.stopPropagation();confAsignadoCard(' + r.id + ')">✓</button>';
+  h += '<div class="sep"></div>';
+  h += '<label>N° Postulación:</label>';
+  h += '<input id="card-np-' + r.id + '" class="inp-nropost" type="text" value="' + (r.nroPost||'') + '" placeholder="N°..." onclick="event.stopPropagation()">';
+  h += '<button class="btn-ok" onclick="event.stopPropagation();confNroPostCard(' + r.id + ')">✓</button>';
+  h += '<div class="sep"></div>';
+  h += '<label>Estado:</label>';
+  h += '<select id="card-est-' + r.id + '" class="sel-asig-det" style="max-width:165px;" onclick="event.stopPropagation()">';
+  ESTADOS.forEach(function(e){ h += '<option' + (e===r.estado?' selected':'') + '>' + e + '</option>'; });
+  h += '</select><button class="btn-ok" onclick="event.stopPropagation();confEstadoCard(' + r.id + ')">✓</button>';
+  h += '</div>';
+
+  // Datos
+  h += '<div class="det-grid">';
+  var campos = [
+    ['Teléfono', r.tel, true], ['Mail', r.mail, true], ['CUIT', r.cuit, true],
+    ['Nombre socio', r.socio||'—', false], ['Nro socio', r.nroSocio||'—', true],
+    ['Ticket', r.ticket||'—', true], ['Medida judicial', medida, false], ['Valor mensual', '', false]
+  ];
+  campos.forEach(function(c){
+    var valor = c[0]==='Valor mensual' ? renderValorMensual(r) : c[1];
+    h += '<div class="det-field"><label>' + c[0] + '</label>';
+    h += '<div class="dval"><span title="' + c[1] + '">' + valor + '</span>';
+    if (c[2]) h += '<button class="btn-copiar-det" onclick="event.stopPropagation();copiarTexto(\'' + String(c[1]).replace(/'/g,"\\'") + '\',this)">Copiar</button>';
+    h += '</div></div>';
+  });
+  h += '</div>';
+
+  // Observaciones
+  h += '<div class="obs-section">';
+  h += '<div class="obs-section-title">Observaciones (' + r.obs.length + ')</div>';
+  h += '<div class="obs-log">';
+  if (!r.obs.length) h += '<div class="obs-empty">Sin observaciones aún.</div>';
+  else r.obs.forEach(function(o){ h += '<div class="obs-entry"><div class="obs-meta">' + o.meta + '</div><div class="obs-texto">' + o.texto + '</div></div>'; });
+  h += '</div>';
+  h += '<div class="obs-input-area">';
+  h += '<textarea id="card-obs-' + r.id + '" class="obs-textarea" placeholder="Escribí una nueva observación..." onclick="event.stopPropagation()"></textarea>';
+  h += '<button class="btn-guardar-obs" onclick="event.stopPropagation();guardarObsCard(' + r.id + ')">Guardar</button>';
+  h += '</div></div>';
+  return h;
+}
+
+function copiarTexto(texto, btn) {
+  navigator.clipboard && navigator.clipboard.writeText(texto);
+  btn.innerText = '¡Copiado!'; btn.style.background = '#2e7d32';
+  setTimeout(function(){ btn.innerText='Copiar'; btn.style.background=''; }, 1500);
+}
+
+function buscar(id) { return registros.find(function(r){ return r.id === id; }); }
+
+function confEstadoCard(id) {
+  var r = buscar(id);
+  var nuevo = document.getElementById('card-est-' + id).value;
+  if (nuevo !== 'Propuesto' && !r.asignado) {
+    aviso('⚠️ Primero asigná un responsable antes de cambiar el estado.');
+    document.getElementById('card-est-' + id).value = r.estado; return;
+  }
+  var posteriores = ['Pendiente de Experiencia','Contratado','No contratado'];
+  if (r.estado === 'Postulado' && posteriores.indexOf(nuevo) !== -1 && !r.nroPost) {
+    aviso('⚠️ Cargá el N° de postulación antes de avanzar.');
+    document.getElementById('card-est-' + id).value = 'Postulado'; return;
+  }
+  r.estado = nuevo;
+  if (nuevo === 'Contratado') { r.fechaContr = '10/06/2026'; filaExpandida = null; }
+  if (nuevo === 'No contratado') filaExpandida = null;
+  aviso('✅ Estado actualizado a "' + nuevo + '"', 'exito');
+  renderGestion();
+}
+
+function confAsignadoCard(id) {
+  var r = buscar(id);
+  var nombre = document.getElementById('card-asig-' + id).value;
+  r.asignado = nombre;
+  if (nombre && r.estado === 'Propuesto') r.estado = 'Asignado';
+  aviso(nombre ? '✅ Asignado a ' + nombre : '✅ Asignación quitada', 'exito');
+  renderGestion();
+}
+
+function confNroPostCard(id) {
+  var r = buscar(id);
+  var v = document.getElementById('card-np-' + id).value.trim();
+  if (!v) { aviso('Ingresá un número de postulación.'); return; }
+  r.nroPost = v;
+  aviso('✅ N° de postulación guardado: ' + v, 'exito');
+  renderGestion();
+}
+
+function guardarObsCard(id) {
+  var r = buscar(id);
+  var t = document.getElementById('card-obs-' + id).value.trim();
+  if (!t) return;
+  var ahora = new Date();
+  r.obs.push({ meta: ahora.toLocaleDateString('es-AR') + ' ' + ahora.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}) + ' - usuario.demo@osde.com.ar - Asignado a: ' + (r.asignado||'—'), texto: t });
+  aviso('✅ Observación agregada', 'exito');
+  renderGestion();
 }
 
 function limpiarFiltros() {
@@ -408,87 +644,7 @@ function limpiarFiltros() {
   document.getElementById('fTipo').value = '';
   document.getElementById('fEstado').value = '';
   document.getElementById('fBuscar').value = '';
-  renderGestion();
-}
-
-function buscar(id) { return registros.find(function(r){ return r.id === id; }); }
-
-function confEstado(id) {
-  var r = buscar(id);
-  var sel = document.getElementById('est-' + id);
-  var nuevo = sel.value;
-
-  if (nuevo !== 'Propuesto' && !r.asignado) {
-    aviso('⚠️ Primero tenés que asignar este profesional a alguien antes de cambiar el estado.');
-    sel.value = r.estado; sel.className = 'select-estado ' + (CLS[r.estado]||'propuesto');
-    return;
-  }
-  var posteriores = ['Pendiente de Experiencia','Contratado','No contratado'];
-  if (r.estado === 'Postulado' && posteriores.indexOf(nuevo) !== -1 && !r.nroPost) {
-    aviso('⚠️ Tenés que cargar el N° de postulación antes de avanzar a este estado.');
-    sel.value = 'Postulado'; sel.className = 'select-estado postulado';
-    return;
-  }
-  r.estado = nuevo;
-  if (nuevo === 'Contratado') r.fechaContr = '10/06/2026';
-  aviso('✅ Estado actualizado a "' + nuevo + '"', 'exito');
-  renderGestion();
-}
-
-function confAsignado(id) {
-  var r = buscar(id);
-  var nombre = document.getElementById('asig-' + id).value;
-  r.asignado = nombre;
-  if (nombre && r.estado === 'Propuesto') r.estado = 'Asignado';
-  aviso(nombre ? '✅ Asignado a ' + nombre : '✅ Asignación quitada', 'exito');
-  renderGestion();
-}
-
-function confNroPost(id) {
-  var r = buscar(id);
-  var v = document.getElementById('np-' + id).value.trim();
-  if (!v) { aviso('Ingresá un número de postulación.'); return; }
-  r.nroPost = v;
-  aviso('✅ N° de postulación guardado: ' + v, 'exito');
-  renderGestion();
-}
-
-function verContacto(id) {
-  var r = buscar(id);
-  document.getElementById('mcNombre').innerText = r.nombre;
-  document.getElementById('mcTel').innerText = r.tel;
-  document.getElementById('mcMail').innerText = r.mail;
-  document.getElementById('mcCuit').innerText = r.cuit;
-  document.getElementById('modalContacto').classList.add('activo');
-}
-
-var obsActual = -1;
-function verObs(id) {
-  obsActual = id;
-  var r = buscar(id);
-  document.getElementById('moNombre').innerText = r.nombre;
-  document.getElementById('moLog').innerHTML = r.obs.length === 0
-    ? '<p style="color:#aaa;font-size:13px;">Sin observaciones aún.</p>'
-    : r.obs.map(function(o){ return '<div class="obs-entry"><div class="obs-meta">'+o.meta+'</div><div class="obs-texto">'+o.texto+'</div></div>'; }).join('');
-  var ed = document.getElementById('moEditor');
-  if (!r.asignado) {
-    ed.innerHTML = '<p style="color:#c62828;font-size:13px;background:#fdecea;padding:10px 12px;border-radius:6px;">⚠️ Asigná este profesional a alguien para poder cargar observaciones.</p>';
-  } else {
-    ed.innerHTML = '<textarea class="obs-input" id="moInput" placeholder="Escribí una nueva observación..."></textarea>'
-      + '<div style="display:flex;gap:8px;"><button class="btn-guardar-obs" onclick="guardarObs()">Guardar</button>'
-      + '<button class="btn-cerrar" style="margin-top:0;" onclick="document.getElementById(\'modalObs\').classList.remove(\'activo\')">Cancelar</button></div>';
-  }
-  document.getElementById('modalObs').classList.add('activo');
-}
-
-function guardarObs() {
-  var r = buscar(obsActual);
-  var t = document.getElementById('moInput').value.trim();
-  if (!t) return;
-  var ahora = new Date();
-  r.obs.push({ meta: ahora.toLocaleDateString('es-AR') + ' ' + ahora.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}) + ' - usuario.demo@osde.com.ar - Asignado a: ' + r.asignado, texto: t });
-  aviso('✅ Observación agregada', 'exito');
-  verObs(obsActual);
+  window._ordenarValor = false;
   renderGestion();
 }
 
@@ -506,6 +662,16 @@ function simularAlta() {
 }
 
 // ================== CARGA ==================
+var ESP_MENSUALES = ['Escuela Especial','Centro de día','Centro Educativo Terapéutico (CET)','CET','Integración Escolar'];
+var ESP_SIN_VALOR = ['Transporte'];
+function toggleValor() {
+  var esp = document.getElementById('cEsp').value;
+  var mensual = ESP_MENSUALES.indexOf(esp) !== -1;
+  var sinValor = ESP_SIN_VALOR.indexOf(esp) !== -1;
+  document.getElementById('grpValorMensual').style.display   = mensual ? 'flex' : 'none';
+  document.getElementById('grpValorSesionada').style.display = (!mensual && !sinValor) ? 'flex' : 'none';
+}
+
 function toggleTipo() {
   var t = document.getElementById('cTipo').value;
   var ocultar = (t === 'Prestador' || t === 'FueraMI');
@@ -587,6 +753,71 @@ function renderNoContratados() {
   });
   h += '</tbody></table></div>';
   document.getElementById('tablaNoContratados').innerHTML = h;
+}
+
+// ================== ESTADÍSTICAS ==================
+function renderStats() {
+  var total = registros.length;
+  var contratados = registros.filter(function(r){ return r.estado === 'Contratado'; }).length;
+  var noContr = registros.filter(function(r){ return r.estado === 'No contratado'; }).length;
+  var enGestion = total - contratados - noContr;
+  var sinAsignar = registros.filter(function(r){ return !r.asignado && r.estado !== 'Contratado' && r.estado !== 'No contratado'; }).length;
+
+  // Por filial
+  var porFilial = {};
+  registros.forEach(function(r){ porFilial[r.filial] = (porFilial[r.filial]||0)+1; });
+  var maxFilial = Math.max.apply(null, Object.keys(porFilial).map(function(k){ return porFilial[k]; }));
+
+  // Por estado
+  var porEstado = {};
+  ESTADOS.forEach(function(e){ porEstado[e] = 0; });
+  registros.forEach(function(r){ porEstado[r.estado] = (porEstado[r.estado]||0)+1; });
+
+  // Trabajado por asesor
+  var porAsesor = {};
+  registros.forEach(function(r){ if (r.asignado) porAsesor[r.asignado] = (porAsesor[r.asignado]||0)+1; });
+  var maxAsesor = Math.max.apply(null, [1].concat(Object.keys(porAsesor).map(function(k){ return porAsesor[k]; })));
+
+  var h = '<div class="stats-kpis">'
+    + '<div class="kpi"><div class="num">' + total + '</div><div class="lbl">Propuestas totales</div></div>'
+    + '<div class="kpi amarillo"><div class="num">' + enGestion + '</div><div class="lbl">En gestión</div></div>'
+    + '<div class="kpi verde"><div class="num">' + contratados + '</div><div class="lbl">Contratados</div></div>'
+    + '<div class="kpi rojo"><div class="num">' + noContr + '</div><div class="lbl">No contratados</div></div>'
+    + '<div class="kpi"><div class="num">' + sinAsignar + '</div><div class="lbl">Sin asignar</div></div>'
+    + '</div>';
+
+  h += '<div class="stats-grid">';
+
+  // Panel filiales
+  h += '<div class="stats-panel"><h3>📍 Propuestas por filial</h3>';
+  Object.keys(porFilial).sort(function(a,b){ return porFilial[b]-porFilial[a]; }).forEach(function(f) {
+    var pct = Math.round(porFilial[f] / maxFilial * 100);
+    h += '<div class="barra-fila"><div class="blbl">' + f + '</div>'
+       + '<div class="barra-cont"><div class="barra" style="width:' + pct + '%;">' + porFilial[f] + '</div></div></div>';
+  });
+  h += '</div>';
+
+  // Panel estados
+  h += '<div class="stats-panel"><h3>🔖 Distribución por estado</h3>';
+  ESTADOS.forEach(function(e) {
+    if (!porEstado[e]) return;
+    h += '<div class="barra-fila"><div class="blbl"><span class="badge badge-' + (CLS[e]||'propuesto') + '">' + e + '</span></div>'
+       + '<div class="barra-cont"><div class="barra' + (e==='Contratado'?' verde':'') + '" style="width:' + Math.round(porEstado[e]/total*100) + '%;">' + porEstado[e] + '</div></div></div>';
+  });
+  h += '</div>';
+
+  // Panel trabajo por asesor
+  h += '<div class="stats-panel"><h3>👤 Casos trabajados por asesor</h3>';
+  var asesores = Object.keys(porAsesor).sort(function(a,b){ return porAsesor[b]-porAsesor[a]; });
+  if (asesores.length === 0) h += '<p style="color:#999;font-size:13px;">Sin casos asignados aún.</p>';
+  asesores.forEach(function(a) {
+    h += '<div class="barra-fila"><div class="blbl">' + a + '</div>'
+       + '<div class="barra-cont"><div class="barra verde" style="width:' + Math.round(porAsesor[a]/maxAsesor*100) + '%;">' + porAsesor[a] + '</div></div></div>';
+  });
+  h += '</div>';
+
+  h += '</div>';
+  document.getElementById('contenidoStats').innerHTML = h;
 }
 
 // Inicial
