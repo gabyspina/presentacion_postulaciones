@@ -3,222 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modelo Relacional — El Enigma de las Postulaciones</title>
+<title>PREVIEW · Modelo Relacional horizontal — bloque para index.html</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Segoe UI', sans-serif; background:#f0f2f5; color:#333; line-height:1.6; }
-
-  .hero {
-    background: linear-gradient(-45deg, #0a3a5c, #0F4C75, #1b6ca8, #3a9bd5);
-    background-size: 400% 400%;
-    animation: grad 14s ease infinite;
-    color:#fff; padding:48px 20px 40px; text-align:center;
+  /* ============================================================
+     SOLO PARA ESTE PREVIEW — NO copiar al index.html
+     (simula el fondo y tipografía base de la sección 04)
+     ============================================================ */
+  :root{
+    --navy:#14213D; --ink:#1B2430; --cyan:#2DD4DA; --blue:#3461C4;
+    --paper:#FFFFFF; --bg:#D8E7FB; --line:#B9D2F0; --muted:#56698A;
   }
-  @keyframes grad { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-  .hero .badge { display:inline-block; background:#f9a825; color:#0a3a5c; font-weight:800; font-size:13px; letter-spacing:2px; padding:6px 16px; border-radius:30px; text-transform:uppercase; margin-bottom:16px; }
-  .hero h1 { font-size:2rem; font-weight:800; text-shadow:0 2px 10px rgba(0,0,0,0.25); }
-  .hero p { margin-top:12px; opacity:0.92; font-size:16px; max-width:640px; margin-left:auto; margin-right:auto; }
-  .hero .volver { display:inline-block; margin-top:22px; color:#fff; border:1px solid rgba(255,255,255,0.6); padding:8px 20px; border-radius:30px; text-decoration:none; font-size:14px; transition:background 0.2s; }
-  .hero .volver:hover { background:rgba(255,255,255,0.15); }
+  *{ box-sizing:border-box; }
+  body{ margin:0; font-family:'Inter',system-ui,sans-serif; color:var(--ink); background:var(--bg); padding:48px 24px; }
+  .wrap-preview{ max-width:1080px; margin:0 auto; }
+  .tech-card{
+    background:var(--paper); border:1px solid var(--line); border-radius:18px;
+    padding:28px; box-shadow:0 12px 36px -20px rgba(20,33,61,.20);
+  }
+  .tech-card h3{ font-family:'Space Grotesk',sans-serif; font-size:1.05rem; color:var(--navy); margin:0 0 14px; }
 
-  .container { max-width:1080px; margin:0 auto; padding:34px 20px 60px; }
+  /* ============================================================
+     PASO 1 · CSS — copiar TODO este bloque dentro del <style>
+     del index.html, justo antes de la línea:
+         /* ---------- NAV DOTS (hero) ---------- *​/
+     ============================================================ */
 
-  .card { background:#fff; border-radius:14px; box-shadow:0 4px 14px rgba(0,0,0,0.08); padding:28px 30px; margin-bottom:26px; }
-  .card h2 { color:#0F4C75; font-size:1.3rem; margin-bottom:14px; display:flex; align-items:center; gap:10px; }
-  .card h2 .ico { font-size:1.4rem; }
-  .card p { margin-bottom:12px; }
-  .card .clave { background:#fff8e1; border-left:4px solid #f9a825; padding:12px 16px; border-radius:0 8px 8px 0; margin:14px 0; font-size:15px; }
-  .card .clave strong { color:#b58908; }
+  /* ---------- MODELO RELACIONAL ---------- */
+  .mr-card{ margin-top:24px; }
 
-  .diagrama { background:#fff; border-radius:14px; box-shadow:0 4px 14px rgba(0,0,0,0.08); padding:26px; margin-bottom:26px; overflow-x:auto; }
-  .diagrama .titulo-d { color:#0F4C75; font-size:1.1rem; font-weight:700; margin-bottom:18px; text-align:center; }
-  #erd { display:flex; justify-content:center; min-height:200px; }
-  #erd svg { max-width:100%; height:auto; }
+  .mr-clave{
+    display:flex; align-items:flex-start; gap:12px;
+    background:#FFF4D6; border:1px solid #F0DFA8; border-radius:12px;
+    padding:14px 18px; margin-bottom:26px;
+    font-size:.92rem; color:#6B5200; line-height:1.5;
+  }
+  .mr-clave .mr-key-ico{
+    flex-shrink:0; width:34px; height:34px; border-radius:10px;
+    background:#8A6300; color:#FFF4D6;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .mr-clave .mr-key-ico svg{ width:20px; height:20px; }
+  .mr-clave b{ color:#8A6300; }
+  .mr-clave code{
+    background:#fff; border:1px solid #F0DFA8; border-radius:6px;
+    padding:1px 6px; font-family:'IBM Plex Mono',monospace; font-size:.8rem;
+  }
 
-  .flujo { display:flex; flex-direction:column; gap:14px; }
-  .paso { display:flex; gap:16px; align-items:flex-start; }
-  .paso .num { flex-shrink:0; width:34px; height:34px; border-radius:50%; background:#0F4C75; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; }
-  .paso .txt { flex:1; }
-  .paso .txt h4 { color:#0F4C75; font-size:15px; margin-bottom:3px; }
-  .paso .txt p { font-size:14px; color:#555; margin:0; }
+  .mr-flow{
+    display:grid;
+    grid-template-columns:1fr 64px 1fr 64px 1fr;
+    align-items:stretch;
+    gap:0;
+  }
+  .mr-table{
+    border:1px solid var(--line); border-radius:14px; overflow:hidden;
+    display:flex; flex-direction:column;
+    background:#fff;
+  }
+  .mr-th{
+    font-family:'Space Grotesk',sans-serif; font-weight:700;
+    font-size:.95rem; color:#fff; padding:12px 16px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .mr-table.origen .mr-th{ background:var(--navy); }
+  .mr-table.estado .mr-th{ background:#1D9E75; }
+  .mr-table.alta   .mr-th{ background:#BA7517; }
+  .mr-tb{ padding:14px 16px; font-size:.86rem; color:var(--muted); line-height:1.5; flex:1; }
+  .mr-tb p{ margin:0; }
+  .mr-pk{
+    display:inline-block; font-family:'IBM Plex Mono',monospace;
+    font-size:.72rem; font-weight:500; letter-spacing:.04em;
+    border-radius:999px; padding:4px 12px; margin-bottom:10px;
+  }
+  .mr-table.origen .mr-pk{ background:#E3ECFB; color:var(--blue); border:1px solid var(--line); }
+  .mr-table.estado .mr-pk{ background:#DFF4EC; color:#12775A; border:1px solid #BCE4D6; }
+  .mr-table.alta   .mr-pk{ background:#FBEEDC; color:#96590B; border:1px solid #EED9B8; }
 
-  .tablas-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-top:8px; }
-  .tabla-box { border:1px solid #e0e0e0; border-radius:10px; overflow:hidden; }
-  .tabla-box .th { padding:12px 14px; font-weight:700; font-size:14px; color:#fff; }
-  .tabla-box.origen .th  { background:#0F4C75; }
-  .tabla-box.estado .th  { background:#1d9e75; }
-  .tabla-box.alta .th    { background:#ba7517; }
-  .tabla-box .tb { padding:12px 14px; font-size:13px; color:#555; }
-  .tabla-box .tb .pk { display:inline-block; background:#fff3c4; color:#8a6d00; font-weight:700; font-size:11px; padding:2px 8px; border-radius:10px; margin-bottom:8px; }
+  .mr-arrow{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:6px; padding:0 4px;
+  }
+  .mr-arrow svg{ width:100%; max-width:56px; height:14px; display:block; }
+  .mr-arrow .mr-chip{
+    font-family:'IBM Plex Mono',monospace; font-size:.62rem; font-weight:500;
+    letter-spacing:.03em; color:var(--navy);
+    background:rgba(45,212,218,.18); border:1px solid var(--cyan);
+    border-radius:999px; padding:3px 8px; white-space:nowrap;
+  }
 
-  .nota { font-size:13px; color:#888; font-style:italic; margin-top:10px; }
-  .footer { text-align:center; color:#999; font-size:13px; padding:20px; }
+  .mr-nota{
+    margin:22px 0 0; font-size:.83rem; color:var(--muted); font-style:italic;
+  }
+
+  @media (max-width:860px){
+    .mr-flow{ grid-template-columns:1fr; }
+    .mr-arrow{ flex-direction:row; padding:10px 0; }
+    .mr-arrow svg{ transform:rotate(90deg); max-width:36px; }
+  }
+  /* ---------- fin MODELO RELACIONAL ---------- */
 </style>
 </head>
 <body>
+<div class="wrap-preview">
 
-<div class="hero">
-  <span class="badge">Caso 63 · Enigma 6.67</span>
-  <h1>Modelo Relacional</h1>
-  <p>Cómo se vinculan los tres archivos de la herramienta a través del N° de postulación.</p>
-  <a class="volver" href="index.html">← Volver a la presentación</a>
+<!-- ============================================================
+     PASO 2 · HTML — copiar desde <div class="tech-card mr-card">
+     hasta su cierre, y pegarlo en index.html DENTRO de la
+     sección 04 (#tecnico), justo DESPUÉS del cierre de
+     <div class="tech-grid"> ... </div> y ANTES de </div></section>
+     ============================================================ -->
+
+<div class="tech-card mr-card">
+  <h3>Modelo relacional — cómo se conectan los tres archivos</h3>
+
+  <div class="mr-clave">
+    <span class="mr-key-ico">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="8" cy="15" r="4"/>
+        <path d="M10.85 12.15 L19 4"/>
+        <path d="M18 5 L21 8"/>
+        <path d="M15 8 L17 10"/>
+      </svg>
+    </span>
+    <div>
+      <b>El N° de postulación es la llave que une todo.</b>
+      Nace como clave primaria en <code>Posibles contrataciones</code> y viaja como clave foránea
+      hacia los otros dos archivos. Es la llave para seguir el estado del trámite, que maneja
+      Administración de Prestadores.
+    </div>
+  </div>
+
+  <div class="mr-flow">
+
+    <div class="mr-table origen">
+      <div class="mr-th">Posibles contrataciones</div>
+      <div class="mr-tb">
+        <span class="mr-pk">PK · N° de postulación</span>
+        <p>Filial, ciudad, profesional, especialidad, socio, CUIT, ticket, estado, asignado,
+        modalidad y valor de la prestación. Acá se carga y se trabaja cada propuesta:
+        es el origen de la llave.</p>
+      </div>
+    </div>
+
+    <div class="mr-arrow" aria-hidden="true">
+      <span class="mr-chip">N° post.</span>
+      <svg viewBox="0 0 56 14" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="7" x2="46" y2="7" stroke="#3461C4" stroke-width="2"/>
+        <path d="M46,1.5 L55,7 L46,12.5 Z" fill="#3461C4"/>
+      </svg>
+    </div>
+
+    <div class="mr-table estado">
+      <div class="mr-th">Postulación de prestadores</div>
+      <div class="mr-tb">
+        <span class="mr-pk">FK · N° trámite/actividad</span>
+        <p>Asesor, estado, prestador, prioridad, experiencia, observaciones y llamados.
+        Con la misma llave se lee este archivo y se trae el estado del trámite que
+        administra Adm. de Prestadores.</p>
+      </div>
+    </div>
+
+    <div class="mr-arrow" aria-hidden="true">
+      <span class="mr-chip">N° post.</span>
+      <svg viewBox="0 0 56 14" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="7" x2="46" y2="7" stroke="#3461C4" stroke-width="2"/>
+        <path d="M46,1.5 L55,7 L46,12.5 Z" fill="#3461C4"/>
+      </svg>
+    </div>
+
+    <div class="mr-table alta">
+      <div class="mr-th">Alta de prestadores</div>
+      <div class="mr-tb">
+        <span class="mr-pk">FK · N° de postulación</span>
+        <p>Fecha de alta, N° de prestador, socio, filial, ciudad, ticket. Al llegar el mail
+        de alta, matchea por la llave y confirma la contratación de forma automática.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="mr-nota">
+    Al ser Google Sheets y no una base de datos relacional, la integridad la garantiza
+    el circuito de trabajo y el código de la herramienta, no el motor de datos.
+  </p>
 </div>
 
-<div class="container">
-
-  <div class="card">
-    <h2><span class="ico">🔗</span> La llave que une todo</h2>
-    <p>La herramienta integra tres archivos de Google Sheets. El dato que los conecta es el <strong>N° de postulación</strong>: nace en el archivo de posibles contrataciones y, según dónde esté, trae la información de los otros dos.</p>
-    <div class="clave">
-      <strong>N° de postulación = clave de unión.</strong> Es la PK (clave primaria) en "Posibles contrataciones", donde se origina, y funciona como FK (clave foránea) en los otros dos archivos, que la usan para traer la información correspondiente.
-    </div>
-  </div>
-
-  <div class="diagrama">
-    <div class="titulo-d">Diagrama Entidad–Relación</div>
-    <div id="erd">Cargando diagrama...</div>
-    <p class="nota" style="text-align:center;">Las líneas representan el N° de postulación uniendo los tres archivos.</p>
-  </div>
-
-  <div class="card">
-    <h2><span class="ico">🔄</span> El flujo de la información</h2>
-    <div class="flujo">
-      <div class="paso">
-        <div class="num">1</div>
-        <div class="txt">
-          <h4>Posibles contrataciones — origen</h4>
-          <p>Se carga la propuesta completa: datos del profesional, del socio, especialidad, valor de la prestación. Cuando se obtiene el número, se escribe en la columna "N° de postulación". Esa es la llave maestra.</p>
-        </div>
-      </div>
-      <div class="paso">
-        <div class="num">2</div>
-        <div class="txt">
-          <h4>Postulación de prestadores — estado del trámite</h4>
-          <p>Con ese mismo número se lee este archivo, que administra Administración de Prestadores, y se trae el estado del trámite: en qué etapa está, los llamados, las observaciones de administración.</p>
-        </div>
-      </div>
-      <div class="paso">
-        <div class="num">3</div>
-        <div class="txt">
-          <h4>Alta de prestadores — contratación automática</h4>
-          <p>Cuando llega el mail de alta, este archivo matchea por el N° de postulación y dispara la contratación, confirmando los datos del socio y del prestador por los cuales se postuló.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2><span class="ico">📋</span> Los tres archivos</h2>
-    <div class="tablas-grid">
-      <div class="tabla-box origen">
-        <div class="th">Posibles contrataciones</div>
-        <div class="tb">
-          <span class="pk">PK · N° de postulación</span>
-          <p>Filial, ciudad, profesional, especialidad, socio, CUIT, ticket, estado, asignado, modalidad y valor de la prestación. Es el archivo donde se carga y trabaja cada propuesta.</p>
-        </div>
-      </div>
-      <div class="tabla-box estado">
-        <div class="th">Postulación de prestadores</div>
-        <div class="tb">
-          <span class="pk">FK · N° trámite/actividad</span>
-          <p>Asesor, estado, prestador, prioridad, experiencia, observaciones y llamados de administración. Aporta el estado del trámite que maneja Administración de Prestadores.</p>
-        </div>
-      </div>
-      <div class="tabla-box alta">
-        <div class="th">Alta de prestadores</div>
-        <div class="tb">
-          <span class="pk">FK · N° de postulación</span>
-          <p>Fecha de alta, N° de prestador, socio, filial, ciudad, ticket. Es la fuente que, al leer el mail de alta, confirma la contratación.</p>
-        </div>
-      </div>
-    </div>
-    <p class="nota">Nota: al ser Google Sheets y no una base de datos relacional, el N° de postulación es una clave de negocio compartida. La integridad la garantiza el circuito de trabajo y el código de la herramienta, no el motor de datos.</p>
-  </div>
+<!-- ============================ fin bloque a copiar ============================ -->
 
 </div>
-
-<div class="footer">OSDE · Nodo Buenos Aires Sur — Sector Discapacidad</div>
-
-<script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-  const dark = false;
-  mermaid.initialize({
-    startOnLoad: false,
-    theme: 'base',
-    fontFamily: '"Segoe UI", sans-serif',
-    themeVariables: {
-      fontSize: '13px',
-      primaryColor: '#eaf2f8',
-      primaryBorderColor: '#0F4C75',
-      lineColor: '#73726c',
-      textColor: '#333'
-    }
-  });
-  const def = `erDiagram
-  POSIBLES_CONTRATACIONES ||--o| POSTULACION_PRESTADORES : "N postulacion"
-  POSIBLES_CONTRATACIONES ||--o| ALTA_PRESTADORES : "N postulacion"
-  POSTULACION_PRESTADORES ||--o| ALTA_PRESTADORES : "N postulacion"
-  POSIBLES_CONTRATACIONES {
-    text nro_postulacion PK
-    text filial
-    text ciudad_prestador
-    text usuario_carga
-    text profesional_existente_nuevo
-    text motivo_postulacion
-    text nombre_profesional
-    text especialidad
-    text telefono
-    text mail
-    date fecha_postulacion
-    text nro_profesional_PD
-    text nro_socio
-    text socio
-    text id_documentacion_ticket
-    text medida_judicial
-    text cuit
-    text asignado_a
-    text estado_postulacion
-    text numero_prestador
-    date fecha_alta
-    text modalidad_prestacion
-    number valor_mensual
-    number cantidad_sesiones
-  }
-  POSTULACION_PRESTADORES {
-    text nro_tramite_actividad FK
-    text asesor
-    text estado
-    text nombre_apellido
-    text prestador
-    text clase_efector
-    date fecha_cambio
-    text prioridad
-    text especialidad
-    text resumen_experiencia
-    text obs_administracion
-    text llamados_administracion
-  }
-  ALTA_PRESTADORES {
-    text nro_postulacion FK
-    date fecha_proceso
-    date fecha_alta
-    text nombre_prestador
-    text especialidad
-    text numero_prestador
-    text cuit
-    text nombre_socio
-    text numero_socio
-    text filial
-    text ciudad
-    text nro_ticket
-  }`;
-  try {
-    const { svg } = await mermaid.render('erd-svg', def);
-    document.getElementById('erd').innerHTML = svg;
-  } catch (e) {
-    document.getElementById('erd').innerHTML = '<p style="color:#c62828;">No se pudo renderizar el diagrama: ' + e.message + '</p>';
-  }
-</script>
-
 </body>
 </html>
