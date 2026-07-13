@@ -497,6 +497,45 @@
     .screens-list li{ flex-direction:column; gap:2px; }
   }
 
+  /* ---------- ERD MODELO RELACIONAL ---------- */
+  .erd-card{ margin-top:24px; }
+  .erd-sub{ font-size:.9rem; color:var(--muted); margin:0 0 4px; }
+  .erd-hint{
+    font-family:'IBM Plex Mono',monospace; font-size:.74rem; color:var(--blue);
+    margin:0 0 18px; display:flex; align-items:center; gap:7px;
+  }
+  .erd-hint::before{
+    content:''; width:9px; height:9px; border-radius:50%;
+    background:var(--cyan); box-shadow:0 0 0 4px rgba(45,212,218,.22);
+  }
+  .erd-scroll{ overflow-x:auto; margin:-4px; padding:4px; }
+  .erd-svg{ display:block; width:100%; min-width:720px; height:auto; }
+  .erd-svg text{ font-family:'IBM Plex Mono',monospace; }
+  .erd-svg .erd-link{
+    stroke:#9DB6DA; stroke-width:2; fill:none;
+    transition:stroke .2s ease, stroke-width .2s ease;
+  }
+  .erd-svg .erd-link.on{ stroke:var(--cyan); stroke-width:3.5; }
+  .erd-box{ transition:filter .2s ease; cursor:default; }
+  .erd-box .erd-frame{ fill:#fff; stroke:var(--line); stroke-width:1.5; transition:stroke .2s ease; }
+  .erd-box.on .erd-frame{ stroke:var(--cyan); stroke-width:2.5; }
+  .erd-box .erd-head{ stroke:none; }
+  .erd-box.origen .erd-head{ fill:var(--navy); }
+  .erd-box.estado .erd-head{ fill:#1D9E75; }
+  .erd-box.alta   .erd-head{ fill:#BA7517; }
+  .erd-box .erd-title{ fill:#fff; font-size:12.5px; font-weight:700; font-family:'Space Grotesk',sans-serif; }
+  .erd-box .erd-field{ fill:var(--ink); font-size:11px; }
+  .erd-box .erd-row-alt{ fill:#F4F8FE; }
+  .erd-key .erd-keyrow{ fill:#FFF4D6; transition:fill .2s ease; }
+  .erd-key .erd-keytxt{ fill:#8A6300; font-weight:700; font-size:11px; }
+  .erd-key .erd-badge{ fill:#8A6300; }
+  .erd-key .erd-badge-t{ fill:#FFF4D6; font-size:8.5px; font-weight:700; }
+  .erd-svg.lit .erd-key .erd-keyrow{ fill:#FFE7A6; }
+  .erd-svg.lit .erd-key .erd-badge{ fill:#0F4C75; }
+  .erd-nota{ margin:20px 0 0; font-size:.83rem; color:var(--muted); font-style:italic; }
+  @media (max-width:640px){ .erd-hint{ font-size:.68rem; } }
+  /* ---------- fin ERD MODELO RELACIONAL ---------- */
+
   /* ---------- NAV DOTS (hero) ---------- */
   .stepnav{
     display:flex;
@@ -692,7 +731,6 @@
       <a href="#presentacion">02 · La propuesta</a>
       <a href="#demo">03 · Probar la herramienta</a>
       <a href="#tecnico">04 · Cómo está hecho</a>
-      <a href="modelo_relacional.html">Modelo Relacional</a>
     </nav>
   </div>
 </header>
@@ -1062,6 +1100,89 @@
         </div>
       </div>
     </div>
+
+    <div class="tech-card erd-card">
+      <h3>Modelo relacional — cómo se conectan los tres archivos</h3>
+      <p class="erd-sub">El N° de postulación nace en un archivo y viaja a los otros dos como clave de unión.</p>
+      <p class="erd-hint">Pasá el mouse por cualquier tabla para seguir la llave</p>
+
+      <div class="erd-scroll">
+        <svg class="erd-svg" id="erdSvg" viewBox="0 0 1000 430" xmlns="http://www.w3.org/2000/svg"
+             role="img" aria-label="Diagrama relacional: Posibles contrataciones, Postulación de prestadores y Alta de prestadores, unidos por el N° de postulación.">
+
+          <path class="erd-link" id="lnk-oe" d="M320,150 C 360,150 360,150 400,150"/>
+          <path class="erd-link" id="lnk-ea" d="M680,180 C 720,220 720,260 700,300 L 700,300"/>
+          <path class="erd-link" id="lnk-oa" d="M180,300 C 180,360 180,360 400,360"/>
+
+          <g class="erd-box origen" id="box-origen" data-key="origen">
+            <rect class="erd-frame" x="40" y="70" width="280" height="230" rx="10"/>
+            <path class="erd-head" d="M40,80 a10,10 0 0 1 10,-10 h260 a10,10 0 0 1 10,10 v22 h-280 z"/>
+            <text class="erd-title" x="58" y="87">Posibles contrataciones</text>
+            <g class="erd-key">
+              <rect class="erd-keyrow" x="41" y="102" width="278" height="26"/>
+              <rect class="erd-badge" x="54" y="108" width="26" height="14" rx="3"/>
+              <text class="erd-badge-t" x="67" y="118" text-anchor="middle">PK</text>
+              <text class="erd-keytxt" x="90" y="119">N° de postulación</text>
+            </g>
+            <rect class="erd-row-alt" x="41" y="128" width="278" height="19"/>
+            <text class="erd-field" x="58" y="141">filial · ciudad · profesional</text>
+            <text class="erd-field" x="58" y="160">especialidad · socio · CUIT</text>
+            <rect class="erd-row-alt" x="41" y="166" width="278" height="19"/>
+            <text class="erd-field" x="58" y="179">ticket · medida judicial</text>
+            <text class="erd-field" x="58" y="198">estado · asignado a</text>
+            <rect class="erd-row-alt" x="41" y="204" width="278" height="19"/>
+            <text class="erd-field" x="58" y="217">modalidad · valor mensual</text>
+            <text class="erd-field" x="58" y="236">cantidad de sesiones</text>
+            <rect class="erd-row-alt" x="41" y="242" width="278" height="19"/>
+            <text class="erd-field" x="58" y="255">fecha de postulación</text>
+            <text class="erd-field" x="58" y="274">N° prestador · fecha de alta</text>
+          </g>
+
+          <g class="erd-box estado" id="box-estado" data-key="estado">
+            <rect class="erd-frame" x="400" y="70" width="280" height="185" rx="10"/>
+            <path class="erd-head" d="M400,80 a10,10 0 0 1 10,-10 h260 a10,10 0 0 1 10,10 v22 h-280 z"/>
+            <text class="erd-title" x="418" y="87">Postulación de prestadores</text>
+            <g class="erd-key">
+              <rect class="erd-keyrow" x="401" y="102" width="278" height="26"/>
+              <rect class="erd-badge" x="414" y="108" width="26" height="14" rx="3"/>
+              <text class="erd-badge-t" x="427" y="118" text-anchor="middle">FK</text>
+              <text class="erd-keytxt" x="450" y="119">N° trámite/actividad</text>
+            </g>
+            <rect class="erd-row-alt" x="401" y="128" width="278" height="19"/>
+            <text class="erd-field" x="418" y="141">asesor · estado · prestador</text>
+            <text class="erd-field" x="418" y="160">prioridad · clase de efector</text>
+            <rect class="erd-row-alt" x="401" y="166" width="278" height="19"/>
+            <text class="erd-field" x="418" y="179">especialidad · experiencia</text>
+            <text class="erd-field" x="418" y="198">observaciones de adm.</text>
+            <rect class="erd-row-alt" x="401" y="204" width="278" height="19"/>
+            <text class="erd-field" x="418" y="217">llamados de administración</text>
+            <text class="erd-field" x="418" y="236">fecha de cambio</text>
+          </g>
+
+          <g class="erd-box alta" id="box-alta" data-key="alta">
+            <rect class="erd-frame" x="400" y="300" width="280" height="110" rx="10"/>
+            <path class="erd-head" d="M400,310 a10,10 0 0 1 10,-10 h260 a10,10 0 0 1 10,10 v22 h-280 z"/>
+            <text class="erd-title" x="418" y="317">Alta de prestadores</text>
+            <g class="erd-key">
+              <rect class="erd-keyrow" x="401" y="332" width="278" height="26"/>
+              <rect class="erd-badge" x="414" y="338" width="26" height="14" rx="3"/>
+              <text class="erd-badge-t" x="427" y="348" text-anchor="middle">FK</text>
+              <text class="erd-keytxt" x="450" y="349">N° de postulación</text>
+            </g>
+            <rect class="erd-row-alt" x="401" y="358" width="278" height="19"/>
+            <text class="erd-field" x="418" y="371">fecha de alta · N° prestador</text>
+            <text class="erd-field" x="418" y="390">socio · filial · ciudad · ticket</text>
+          </g>
+
+        </svg>
+      </div>
+
+      <p class="erd-nota">
+        Al ser Google Sheets y no una base de datos relacional, el N° de postulación es una clave
+        de negocio compartida: la integridad la garantiza el circuito de trabajo y el código de la
+        herramienta, no el motor de datos.
+      </p>
+    </div>
   </div>
 </section>
 
@@ -1092,6 +1213,26 @@
     </div>
   </div>
 </footer>
+
+<script>
+(function(){
+  var svg = document.getElementById('erdSvg');
+  if(!svg) return;
+  var boxes = svg.querySelectorAll('.erd-box');
+  function lit(on){
+    svg.classList.toggle('lit', on);
+    boxes.forEach(function(b){ b.classList.toggle('on', on); });
+    ['lnk-oe','lnk-ea','lnk-oa'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) el.classList.toggle('on', on);
+    });
+  }
+  boxes.forEach(function(box){
+    box.addEventListener('mouseenter', function(){ lit(true); });
+    box.addEventListener('mouseleave', function(){ lit(false); });
+  });
+})();
+</script>
 
 </body>
 </html>
