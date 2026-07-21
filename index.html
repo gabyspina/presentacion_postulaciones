@@ -613,6 +613,39 @@
   @media (max-width:640px){ .erd-hint{ font-size:.68rem; } }
   /* ---------- fin ERD MODELO RELACIONAL ---------- */
   
+  /* ---------- BANNER MÉTRICAS ---------- */
+  .metrics-note{
+    margin-top:22px; padding:24px 26px;
+    background:#EEF3FC; border:1px solid var(--line); border-radius:16px;
+  }
+  .metrics-note h4{
+    font-family:'Space Grotesk',sans-serif; font-size:1rem; color:var(--navy);
+    margin:0 0 4px; display:flex; align-items:center; gap:9px; flex-wrap:wrap;
+  }
+  .metrics-note .m-sub{ font-size:.86rem; color:var(--muted); margin:0 0 20px; }
+  .metrics-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:18px;
+  }
+  .metric-box{
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:16px 18px; text-align:center;
+  }
+  .metric-num{
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:2.1rem;
+    line-height:1; color:var(--blue);
+  }
+  .metric-box.alt .metric-num{ color:#12775A; }
+  .metric-label{ font-size:.8rem; color:var(--muted); margin-top:8px; line-height:1.4; }
+  .m-states{ display:flex; flex-wrap:wrap; gap:8px; margin-top:2px; }
+  .m-state{
+    font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.03em;
+    background:#DFF4EC; color:#12775A; border:1px solid #BCE4D6;
+    border-radius:999px; padding:4px 11px;
+  }
+  .metrics-foot{ margin:16px 0 0; font-size:.82rem; color:var(--muted); font-style:italic; }
+  @media (max-width:560px){ .metrics-grid{ grid-template-columns:1fr; } }
+  /* ---------- fin BANNER MÉTRICAS ---------- */
+
   /* ---------- NAV DOTS (hero) ---------- */
   .stepnav{
     display:flex;
@@ -1041,6 +1074,34 @@
         </p>
       </div>
     </div>
+
+    <div class="metrics-note">
+      <h4>El Portal está en uso y gestionando trabajo real</h4>
+      <p class="m-sub">Datos cargados y gestionados desde la herramienta a la fecha.</p>
+
+      <div class="metrics-grid">
+        <div class="metric-box">
+          <div class="metric-num">182</div>
+          <div class="metric-label">propuestas de contratación de profesionales de Pago Directo cargadas en el sistema</div>
+        </div>
+        <div class="metric-box alt">
+          <div class="metric-num">91</div>
+          <div class="metric-label">con seguimiento activo, distribuidas en sus estados de gestión</div>
+        </div>
+      </div>
+
+      <div class="m-states">
+        <span class="m-state">Postulado</span>
+        <span class="m-state">Asignado</span>
+        <span class="m-state">Contratado</span>
+        <span class="m-state">No contratado</span>
+      </div>
+
+      <p class="metrics-foot">
+        Cada propuesta se carga, asigna y sigue de punta a punta desde el Portal: la herramienta
+        no es una maqueta, es la que sostiene el circuito de postulaciones todos los días.
+      </p>
+    </div>
   </div>
 </section>
 
@@ -1197,88 +1258,6 @@
         </div>
       </div>
     </div>
-<div class="tech-card erd-card">
-      <h3>Modelo relacional — cómo se conectan los tres archivos</h3>
-      <p class="erd-sub">El N° de postulación nace en un archivo y viaja a los otros dos como clave de unión.</p>
-      <p class="erd-hint">Pasá el mouse por cualquier tabla para seguir la llave</p>
-
-      <div class="erd-scroll">
-        <svg class="erd-svg" id="erdSvg" viewBox="0 0 1000 430" xmlns="http://www.w3.org/2000/svg"
-             role="img" aria-label="Diagrama relacional: Posibles contrataciones, Postulación de prestadores y Alta de prestadores, unidos por el N° de postulación.">
-
-          <path class="erd-link" id="lnk-oe" d="M320,150 C 360,150 360,150 400,150"/>
-          <path class="erd-link" id="lnk-ea" d="M680,180 C 720,220 720,260 700,300 L 700,300"/>
-          <path class="erd-link" id="lnk-oa" d="M180,300 C 180,360 180,360 400,360"/>
-
-          <g class="erd-box origen" id="box-origen" data-key="origen">
-            <rect class="erd-frame" x="40" y="70" width="280" height="230" rx="10"/>
-            <path class="erd-head" d="M40,80 a10,10 0 0 1 10,-10 h260 a10,10 0 0 1 10,10 v22 h-280 z"/>
-            <text class="erd-title" x="58" y="87">Posibles contrataciones</text>
-            <g class="erd-key">
-              <rect class="erd-keyrow" x="41" y="102" width="278" height="26"/>
-              <rect class="erd-badge" x="54" y="108" width="26" height="14" rx="3"/>
-              <text class="erd-badge-t" x="67" y="118" text-anchor="middle">PK</text>
-              <text class="erd-keytxt" x="90" y="119">N° de postulación</text>
-            </g>
-            <rect class="erd-row-alt" x="41" y="128" width="278" height="19"/>
-            <text class="erd-field" x="58" y="141">filial · ciudad · profesional</text>
-            <text class="erd-field" x="58" y="160">especialidad · socio · CUIT</text>
-            <rect class="erd-row-alt" x="41" y="166" width="278" height="19"/>
-            <text class="erd-field" x="58" y="179">ticket · medida judicial</text>
-            <text class="erd-field" x="58" y="198">estado · asignado a</text>
-            <rect class="erd-row-alt" x="41" y="204" width="278" height="19"/>
-            <text class="erd-field" x="58" y="217">modalidad · valor mensual</text>
-            <text class="erd-field" x="58" y="236">cantidad de sesiones</text>
-            <rect class="erd-row-alt" x="41" y="242" width="278" height="19"/>
-            <text class="erd-field" x="58" y="255">fecha de postulación</text>
-            <text class="erd-field" x="58" y="274">N° prestador · fecha de alta</text>
-          </g>
-
-          <g class="erd-box estado" id="box-estado" data-key="estado">
-            <rect class="erd-frame" x="400" y="70" width="280" height="185" rx="10"/>
-            <path class="erd-head" d="M400,80 a10,10 0 0 1 10,-10 h260 a10,10 0 0 1 10,10 v22 h-280 z"/>
-            <text class="erd-title" x="418" y="87">Postulación de prestadores</text>
-            <g class="erd-key">
-              <rect class="erd-keyrow" x="401" y="102" width="278" height="26"/>
-              <rect class="erd-badge" x="414" y="108" width="26" height="14" rx="3"/>
-              <text class="erd-badge-t" x="427" y="118" text-anchor="middle">FK</text>
-              <text class="erd-keytxt" x="450" y="119">N° trámite/actividad</text>
-            </g>
-            <rect class="erd-row-alt" x="401" y="128" width="278" height="19"/>
-            <text class="erd-field" x="418" y="141">asesor · estado · prestador</text>
-            <text class="erd-field" x="418" y="160">prioridad · clase de efector</text>
-            <rect class="erd-row-alt" x="401" y="166" width="278" height="19"/>
-            <text class="erd-field" x="418" y="179">especialidad · experiencia</text>
-            <text class="erd-field" x="418" y="198">observaciones de adm.</text>
-            <rect class="erd-row-alt" x="401" y="204" width="278" height="19"/>
-            <text class="erd-field" x="418" y="217">llamados de administración</text>
-            <text class="erd-field" x="418" y="236">fecha de cambio</text>
-          </g>
-
-          <g class="erd-box alta" id="box-alta" data-key="alta">
-            <rect class="erd-frame" x="400" y="300" width="280" height="110" rx="10"/>
-            <path class="erd-head" d="M400,310 a10,10 0 0 1 10,-10 h260 a10,10 0 0 1 10,10 v22 h-280 z"/>
-            <text class="erd-title" x="418" y="317">Alta de prestadores</text>
-            <g class="erd-key">
-              <rect class="erd-keyrow" x="401" y="332" width="278" height="26"/>
-              <rect class="erd-badge" x="414" y="338" width="26" height="14" rx="3"/>
-              <text class="erd-badge-t" x="427" y="348" text-anchor="middle">FK</text>
-              <text class="erd-keytxt" x="450" y="349">N° de postulación</text>
-            </g>
-            <rect class="erd-row-alt" x="401" y="358" width="278" height="19"/>
-            <text class="erd-field" x="418" y="371">fecha de alta · N° prestador</text>
-            <text class="erd-field" x="418" y="390">socio · filial · ciudad · ticket</text>
-          </g>
-
-        </svg>
-      </div>
-
-      <p class="erd-nota">
-        Al ser Google Sheets y no una base de datos relacional, el N° de postulación es una clave
-        de negocio compartida: la integridad la garantiza el circuito de trabajo y el código de la
-        herramienta, no el motor de datos.
-      </p>
-    </div>
     <div class="tech-card erd-card">
       <h3>Modelo relacional — cómo se conectan los tres archivos</h3>
       <p class="erd-sub">El N° de postulación nace en un archivo y viaja a los otros dos como clave de unión.</p>
@@ -1392,25 +1371,6 @@
   </div>
 </footer>
 
-<script>
-(function(){
-  var svg = document.getElementById('erdSvg');
-  if(!svg) return;
-  var boxes = svg.querySelectorAll('.erd-box');
-  function lit(on){
-    svg.classList.toggle('lit', on);
-    boxes.forEach(function(b){ b.classList.toggle('on', on); });
-    ['lnk-oe','lnk-ea','lnk-oa'].forEach(function(id){
-      var el = document.getElementById(id);
-      if(el) el.classList.toggle('on', on);
-    });
-  }
-  boxes.forEach(function(box){
-    box.addEventListener('mouseenter', function(){ lit(true); });
-    box.addEventListener('mouseleave', function(){ lit(false); });
-  });
-})();
-</script>
 <script>
 (function(){
   var svg = document.getElementById('erdSvg');
