@@ -497,45 +497,6 @@
     .screens-list li{ flex-direction:column; gap:2px; }
   }
 
-  /* ---------- ERD MODELO RELACIONAL ---------- */
-  .erd-card{ margin-top:24px; }
-  .erd-sub{ font-size:.9rem; color:var(--muted); margin:0 0 4px; }
-  .erd-hint{
-    font-family:'IBM Plex Mono',monospace; font-size:.74rem; color:var(--blue);
-    margin:0 0 18px; display:flex; align-items:center; gap:7px;
-  }
-  .erd-hint::before{
-    content:''; width:9px; height:9px; border-radius:50%;
-    background:var(--cyan); box-shadow:0 0 0 4px rgba(45,212,218,.22);
-  }
-  .erd-scroll{ overflow-x:auto; margin:-4px; padding:4px; }
-  .erd-svg{ display:block; width:100%; min-width:720px; height:auto; }
-  .erd-svg text{ font-family:'IBM Plex Mono',monospace; }
-  .erd-svg .erd-link{
-    stroke:#9DB6DA; stroke-width:2; fill:none;
-    transition:stroke .2s ease, stroke-width .2s ease;
-  }
-  .erd-svg .erd-link.on{ stroke:var(--cyan); stroke-width:3.5; }
-  .erd-box{ transition:filter .2s ease; cursor:default; }
-  .erd-box .erd-frame{ fill:#fff; stroke:var(--line); stroke-width:1.5; transition:stroke .2s ease; }
-  .erd-box.on .erd-frame{ stroke:var(--cyan); stroke-width:2.5; }
-  .erd-box .erd-head{ stroke:none; }
-  .erd-box.origen .erd-head{ fill:var(--navy); }
-  .erd-box.estado .erd-head{ fill:#1D9E75; }
-  .erd-box.alta   .erd-head{ fill:#BA7517; }
-  .erd-box .erd-title{ fill:#fff; font-size:12.5px; font-weight:700; font-family:'Space Grotesk',sans-serif; }
-  .erd-box .erd-field{ fill:var(--ink); font-size:11px; }
-  .erd-box .erd-row-alt{ fill:#F4F8FE; }
-  .erd-key .erd-keyrow{ fill:#FFF4D6; transition:fill .2s ease; }
-  .erd-key .erd-keytxt{ fill:#8A6300; font-weight:700; font-size:11px; }
-  .erd-key .erd-badge{ fill:#8A6300; }
-  .erd-key .erd-badge-t{ fill:#FFF4D6; font-size:8.5px; font-weight:700; }
-  .erd-svg.lit .erd-key .erd-keyrow{ fill:#FFE7A6; }
-  .erd-svg.lit .erd-key .erd-badge{ fill:#0F4C75; }
-  .erd-nota{ margin:20px 0 0; font-size:.83rem; color:var(--muted); font-style:italic; }
-  @media (max-width:640px){ .erd-hint{ font-size:.68rem; } }
-  /* ---------- fin ERD MODELO RELACIONAL ---------- */
-
   /* ---------- BANNER EN PRODUCCIÓN ---------- */
   .prod-note{
     display:flex; align-items:flex-start; gap:14px;
@@ -645,6 +606,59 @@
   .metrics-foot{ margin:16px 0 0; font-size:.82rem; color:var(--muted); font-style:italic; }
   @media (max-width:560px){ .metrics-grid{ grid-template-columns:1fr; } }
   /* ---------- fin BANNER MÉTRICAS ---------- */
+
+  /* ---------- HECHO CON IA ---------- */
+  .ia-card{ margin-top:24px; }
+  .ia-card h3{
+    font-family:'Space Grotesk',sans-serif; font-size:1.05rem; color:var(--navy);
+    margin:0 0 6px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  }
+  .ia-chip{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'IBM Plex Mono',monospace; font-size:.66rem; font-weight:500;
+    letter-spacing:.05em; text-transform:uppercase;
+    background:rgba(52,97,196,.12); color:var(--blue);
+    border:1px solid rgba(52,97,196,.3); border-radius:999px; padding:3px 10px;
+  }
+  .ia-lead{ font-size:.92rem; color:var(--ink); line-height:1.6; margin:0 0 20px; }
+  .ia-lead b{ color:var(--navy); }
+  .ia-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .ia-item{
+    background:#F4F8FE; border:1px solid var(--line); border-radius:12px;
+    padding:16px 18px;
+  }
+  .ia-item h5{
+    font-family:'Space Grotesk',sans-serif; font-size:.9rem; color:var(--navy);
+    margin:0 0 6px; display:flex; align-items:center; gap:8px;
+  }
+  .ia-item p{ margin:0; font-size:.84rem; color:var(--muted); line-height:1.5; }
+  .ia-dot{ width:8px; height:8px; border-radius:50%; background:var(--cyan); flex-shrink:0; }
+  @media (max-width:560px){ .ia-grid{ grid-template-columns:1fr; } }
+  /* ---------- fin HECHO CON IA ---------- */
+
+  /* ---------- FRASE DE CIERRE ---------- */
+  .cierre{
+    background:linear-gradient(135deg, var(--navy) 0%, #1D3A6E 100%);
+    color:#fff; padding:64px 32px; text-align:center;
+  }
+  .cierre .cierre-inner{ max-width:820px; margin:0 auto; }
+  .cierre .cierre-mark{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--cyan); margin:0 0 22px;
+  }
+  .cierre blockquote{
+    font-family:'Space Grotesk',sans-serif; font-weight:500;
+    font-size:1.7rem; line-height:1.4; margin:0; color:#fff;
+  }
+  .cierre blockquote b{ color:var(--cyan); font-weight:700; }
+  .cierre .cierre-sub{
+    margin:26px 0 0; font-size:.95rem; color:rgba(255,255,255,.7); line-height:1.6;
+  }
+  @media (max-width:640px){
+    .cierre{ padding:48px 22px; }
+    .cierre blockquote{ font-size:1.3rem; }
+  }
+  /* ---------- fin FRASE DE CIERRE ---------- */
 
   /* ---------- NAV DOTS (hero) ---------- */
   .stepnav{
@@ -1340,6 +1354,57 @@
         herramienta, no el motor de datos.
       </p>
     </div>
+
+    <div class="tech-card ia-card">
+      <h3>
+        Construido con inteligencia artificial
+        <span class="ia-chip">De la idea a la herramienta</span>
+      </h3>
+      <p class="ia-lead">
+        Todo este proyecto se desarrolló con el acompañamiento de la inteligencia artificial.
+        Permitió <b>programar acciones y funcionalidades partiendo de un conocimiento técnico muy
+        básico</b>, y —lo más importante— hizo posible <b>llevar a la realidad lo que uno tenía
+        en la cabeza</b>: transformar una idea pensada desde el trabajo diario en una herramienta
+        concreta, funcionando y en uso.
+      </p>
+      <div class="ia-grid">
+        <div class="ia-item">
+          <h5><span class="ia-dot"></span> Programar sin ser programador/a</h5>
+          <p>La lógica del circuito, las validaciones y la automatización del gestor se
+          construyeron paso a paso, sin necesidad de una formación técnica avanzada.</p>
+        </div>
+        <div class="ia-item">
+          <h5><span class="ia-dot"></span> Resolver problemas reales</h5>
+          <p>Cada función nació de una necesidad concreta del equipo, y la IA ayudó a traducir
+          esa necesidad en una solución que hoy se usa todos los días.</p>
+        </div>
+        <div class="ia-item">
+          <h5><span class="ia-dot"></span> Iterar y corregir rápido</h5>
+          <p>Probar, ajustar y mejorar sobre la marcha, algo que antes habría requerido tiempo,
+          recursos y conocimientos difíciles de conseguir.</p>
+        </div>
+        <div class="ia-item">
+          <h5><span class="ia-dot"></span> Materializar una idea</h5>
+          <p>Lo que empezó como algo imaginado desde la gestión diaria se convirtió en un sistema
+          real, tangible y en producción.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FRASE DE CIERRE ============ -->
+<section class="cierre">
+  <div class="cierre-inner">
+    <p class="cierre-mark">— Para cerrar —</p>
+    <blockquote>
+      Hoy lo más importante es <b>tener una idea</b>. Con la inteligencia artificial y el
+      <b>trabajo en equipo</b>, se pueden lograr cosas que antes eran muy difíciles de alcanzar
+      —o tenían un costo enorme— y que ahora <b>están al alcance de la mano</b>.
+    </blockquote>
+    <p class="cierre-sub">
+      Este proyecto es la prueba: una idea nacida desde la gestión diaria, hecha realidad.
+    </p>
   </div>
 </section>
 
